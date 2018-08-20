@@ -27,11 +27,11 @@ export default class Chat extends Component {
   */
 
   componentWillMount() {
-    this.props.fire.getMessageRef(this.props.user).on('child_added', (data) => this.displayMessages(data.val()));
+    FirebaseMain.getMessageRef(this.props.user).on('child_added', (data) => this.displayMessages(data.val()));
     
-    this.props.fire.getMessageRef(this.props.interlocutor).once('value').then((data) => this.populateMessages(data.val()));
+    FirebaseMain.getMessageRef(this.props.interlocutor).once('value').then((data) => this.populateMessages(data.val()));
     /*
-    this.props.fire.getMessageRef(this.props.interlocutor).once().then((data) => this.setState(previousState => ({
+    FirebaseMain.getMessageRef(this.props.interlocutor).once().then((data) => this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, data.val()),
     })));
     */
@@ -54,7 +54,7 @@ export default class Chat extends Component {
 
   onSend(messages = []) {
     this.displayMessages(messages);
-    this.props.fire.addMessage(this.props.interlocutor, messages[messages.length - 1]);
+    FirebaseMain.addMessage(this.props.interlocutor, messages[messages.length - 1]);
   }
 
   render() {

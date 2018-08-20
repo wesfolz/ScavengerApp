@@ -1,11 +1,8 @@
 import firebase from 'react-native-firebase'; 
 
 export default class FirebaseMain {
-  constructor(receiveMessageCallback) {
-    this.init();
-  }
   // 2.
-  init = () =>
+  static init = () =>
     firebase.initializeApp({
       apiKey: "AIzaSyC02ylU8_0j3D01Y0YyYkJi5fA-q_T20iM",
       authDomain: "scavenger-5be15.firebaseapp.com",
@@ -15,19 +12,19 @@ export default class FirebaseMain {
       messagingSenderId: "75285980680"
     });
 
-  getMessageRef(user) {
+  static getMessageRef(user) {
     return firebase.database().ref(user + '/messages');
   }
 
-  getLocationRef(user) {
+  static getLocationRef(user) {
     return firebase.database().ref(user + '/locations');
   }
 
-  addMessage(user, message) {
+  static addMessage(user, message) {
     this.getMessageRef(user).push(message);
   }
 
-  addLocation(user, location) {
+  static addLocation(user, location) {
     this.getLocationRef(user).push(location);
   }
 
