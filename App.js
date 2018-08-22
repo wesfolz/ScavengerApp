@@ -36,7 +36,7 @@ const DrawerComponent = DrawerNavigator({
       screen: ScavengerMain,
   },
 }, {
-  drawerPosition: 'right',
+  drawerPosition: 'left',
   contentComponent: (props) => (
     <Chat user={'Alexa'} interlocutor={'Puppy Jean'}/>
   )

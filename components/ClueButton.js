@@ -16,8 +16,8 @@ export default class ClueButton extends Component {
   render() {
     return (
       <Icon name={this.state.iconName} size={30} color={this.state.iconColor}
-      //onPress={this.props.onPress}
-      onPress={() => { this.setState({iconName: 'check-circle', iconColor: '#228B22'})}}
+      onPress={this.props.onPress}
+      //onPress={() => { this.setState({iconName: 'check-circle', iconColor: '#228B22'})}}
       />
     );
   }
