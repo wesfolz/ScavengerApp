@@ -41,7 +41,7 @@ export default class ScavengerMain extends Component {
           style={styles.ringImage}
           resizeMode="contain"
         />
-        <HeaderBar iconName={'chat'} iconPress={() => this.props.navigation.openDrawer()}/>
+        <HeaderBar headerText={'Header Text'} iconName={'chat'} iconPress={() => this.props.navigation.openDrawer()}/>
         {/*<ClueButton onPress={() => this.setState({displayModal: true})}/>*/}
         <TextModal />
         <View style={{position: 'absolute', left: 100, top: 200, width: 100, height: 100, backgroundColor: '#ffffff80'}} />

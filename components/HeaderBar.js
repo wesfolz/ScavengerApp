@@ -27,7 +27,7 @@ export default class HeaderBar extends Component {
       <View style={styles.container}>
         {/*<ClueButton style={styles.flexPosition}/>*/}
         <Icon name={this.props.iconName} size={30} color={'#56CCF2'} style={styles.messagesButton} underlayColor='#000000' onPress={this.props.iconPress}/>
-        <Text style={styles.headerText}>Header</Text>
+        <Text style={styles.headerText}>{this.props.headerText}</Text>
       </View>
     );
   }

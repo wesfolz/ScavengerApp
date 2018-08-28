@@ -12,29 +12,30 @@ export default class Chat extends Component {
     messages: [],
   }
 
-  /*
-  messages: [
-        {
-          _id: 1,
-          text: 'Hello developer',
-          createdAt: new Date(),
-          user: {
-            _id: 2,
-            name: 'React Native',
-            avatar: 'https://placeimg.com/140/140/any',
-          },
-        }
-  */
-
   componentWillMount() {
-    FirebaseMain.getMessageRef(this.props.user).on('child_added', (data) => this.displayMessages(data.val()));
-    
+    FirebaseMain.getMessageRef(this.props.user).on('child_added', (data) => this.updateMessages(data.val()));
     FirebaseMain.getMessageRef(this.props.interlocutor).once('value').then((data) => this.populateMessages(data.val()));
-    /*
-    FirebaseMain.getMessageRef(this.props.interlocutor).once().then((data) => this.setState(previousState => ({
-      messages: GiftedChat.append(previousState.messages, data.val()),
-    })));
-    */
+  }
+
+  sortMessages() {
+    var messages = [].concat(this.state.messages);
+    messages.sort(this.compareMessages);
+    this.setState({messages: messages}, this.logMessages);
+  }
+
+  logMessages() {
+    for(var i=0; i<this.state.messages.length; i++)
+      console.log('&&&&&&&&&&& ' + this.state.messages[i].text + ' &&&&&&&&&&&');
+  }
+
+  compareMessages(a, b) {
+    if(a.createdAt < b.createdAt) {
+      return 1;
+    }
+    else if(a.createdAt > b.createdAt) {
+      return -1;
+    }
+    return 0;
   }
 
   populateMessages(data) {
@@ -42,18 +43,20 @@ export default class Chat extends Component {
     for(var key in data) {
       messages.push(data[key]);
     }
-    this.displayMessages(messages);
+    messages = this.state.messages.concat(messages);
+    this.setState({
+      messages: messages,
+    }, this.sortMessages);
   }
 
-  displayMessages(messages) {
-    console.log(messages);
+  updateMessages(messages) {
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
-    }));
+    }))
   }
 
   onSend(messages = []) {
-    this.displayMessages(messages);
+    this.updateMessages(messages);
     FirebaseMain.addMessage(this.props.interlocutor, messages[messages.length - 1]);
   }
 
