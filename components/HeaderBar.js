@@ -1,16 +1,13 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Button, Linking, WebView} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {StyleSheet, Text, View} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class HeaderBar extends Component {
+  static defaultProps = {
+    backgroundColor: '#4F4F4F',
+    textColor: 'black',
+    iconColor: '#56CCF2'
+  };
 
   constructor() {
     super();
@@ -24,10 +21,13 @@ export default class HeaderBar extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, {backgroundColor: this.props.backgroundColor}]}>
         {/*<ClueButton style={styles.flexPosition}/>*/}
-        <Icon name={this.props.iconName} size={30} color={'#56CCF2'} style={styles.messagesButton} underlayColor='#000000' onPress={this.props.iconPress}/>
-        <Text style={styles.headerText}>{this.props.headerText}</Text>
+        <Icon name={this.props.leftIconName} size={30} color={this.props.iconColor} 
+          style={[styles.messagesButton, {backgroundColor: this.props.backgroundColor}]} underlayColor='#000000' onPress={this.props.leftIconPress}/>
+        <Text style={[styles.headerText, {color: this.props.textColor}]}>{this.props.headerText}</Text>
+        <Icon name={this.props.rightIconName} size={30} color={this.props.iconColor} 
+          style={[styles.messagesButton, {backgroundColor: this.props.backgroundColor}]} underlayColor='#000000' onPress={this.props.rightIconPress}/>
       </View>
     );
   }
@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     backgroundColor: '#4F4F4F',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     height: 54,
     //width: 10,
   },
@@ -51,10 +52,10 @@ const styles = StyleSheet.create({
   },
   headerText: {
     //color: '#56CCF2',
-    color: '#56CCF2',
+    color: 'black',
     //fontWeight: 'bold',
-    fontSize: 20,
-    fontFamily: 'Roboto',
+    fontSize: 30,
+    fontFamily: "Bob's Burgers",
     margin: 12,
   }
 });

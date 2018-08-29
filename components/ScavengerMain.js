@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, Button, Linking, Image} from 'react-native';
 import Chat from './Chat.js';
@@ -37,13 +29,14 @@ export default class ScavengerMain extends Component {
     return (
       <View style={styles.container}>
         <Image
-          source={require('../images/ring.jpg')}
+          source={require('../images/quadcopter.jpg')}
           style={styles.ringImage}
           resizeMode="contain"
         />
-        <HeaderBar headerText={'Header Text'} iconName={'chat'} iconPress={() => this.props.navigation.openDrawer()}/>
+        <HeaderBar headerText={'Header Text'} leftIconName={'message-text'} leftIconPress={() => this.props.navigation.openDrawer()}
+          rightIconName={'emoticon-poop'}/>
         {/*<ClueButton onPress={() => this.setState({displayModal: true})}/>*/}
-        <TextModal />
+        <TextModal text={'I think Papa is hungry!'}/>
         <View style={{position: 'absolute', left: 100, top: 200, width: 100, height: 100, backgroundColor: '#ffffff80'}} />
         {/*<Chat style={styles.overlay} fire={this.fire} user={this.user} interlocutor={'Puppy Jean'}/>*/}
         {/*<View style={styles.container}>*/}
@@ -73,7 +66,6 @@ const styles = StyleSheet.create({
     /*position: 'absolute',
     top: 10,
     right: 10*/
-
   },
   overlay: {
     flex: 1,

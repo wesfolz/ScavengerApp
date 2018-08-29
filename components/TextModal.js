@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {StyleSheet, Modal, Text, TouchableHighlight, View, PixelRatio} from 'react-native';
+import {StyleSheet, Modal, Text, View, Linking} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ClueButton from './ClueButton.js';
+import HeaderBar from './HeaderBar.js';
 
 export default class VideoModal extends Component {
   state = {
@@ -22,13 +23,20 @@ export default class VideoModal extends Component {
           onRequestClose={() => {
             this.setModalVisible(false);
           }}>
-          <View style={styles.overlay} >
+          <View style={styles.overlay}>
             <View style={styles.card}>
-              <Icon name="close-circle" size={30} color="#ffffff" style={styles.closeButton} onPress={() => {
+              <HeaderBar headerText={"There's some right here!"} leftIconName={'lock-question'} backgroundColor={'#ce2522'} iconColor={'#ffdb58'}
+                rightIconName={'close-circle'} rightIconPress={() => {
                   this.setModalVisible(!this.state.modalVisible);
-                }}>
-              </Icon>
-              <Text style={{color: 'white'}}>Hello</Text>
+                }}/>
+              <View style={styles.cardContent}>
+                <Text style={styles.text}>{this.props.text}</Text>
+                  <Icon name="youtube" size={50} color="#ce2522" onPress={ () => {
+                      Linking.openURL('https://www.youtube.com/watch?v=oxv6-npAxpY')}
+                    }
+                  />
+                  <Text>Play Video</Text>
+              </View>
             </View>
           </View>
         </Modal>
@@ -48,16 +56,26 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   card: {
-    backgroundColor: '#27AE60',
-    justifyContent: 'center',
-    alignItems: 'center',
+    //flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#ffdb58',//'#ce2522',//'#ffdb58',
+    justifyContent: 'flex-start',
+    //alignItems: 'center',
     //margin: 50,
     width: '90%', 
     height: '50%'
   },
-  closeButton: {
-    position: 'absolute',
-    right: 10,
-    top: 10,
+  cardContent: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    color: 'black', 
+    //backgroundColor: 'white',
+    //width: '80%',
+    //height: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });

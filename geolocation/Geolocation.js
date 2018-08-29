@@ -8,7 +8,7 @@ export default class Geolocation {
 
   getLocation() {
     navigator.geolocation.getCurrentPosition(
-      (position) => FirebaseMain.addLocation(this.user, position),
+      (position) => FirebaseMain.setLocation(this.user, position),
       (error) => console.log(error.message),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
@@ -16,7 +16,7 @@ export default class Geolocation {
 
   watchLocation() {
     this.watchId = navigator.geolocation.watchPosition(
-      (position) => FirebaseMain.addLocation(this.user, position),
+      (position) => FirebaseMain.setLocation(this.user, position),
       (error) => console.log(error.message),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 100 },
     );

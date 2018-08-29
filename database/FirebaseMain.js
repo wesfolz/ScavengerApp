@@ -3,14 +3,16 @@ import firebase from 'react-native-firebase';
 export default class FirebaseMain {
   // 2.
   static init() {
-    firebase.initializeApp({
-      apiKey: "AIzaSyC02ylU8_0j3D01Y0YyYkJi5fA-q_T20iM",
-      authDomain: "scavenger-5be15.firebaseapp.com",
-      databaseURL: "https://scavenger-5be15.firebaseio.com",
-      projectId: "scavenger-5be15",
-      storageBucket: "scavenger-5be15.appspot.com",
-      messagingSenderId: "75285980680"
-    });
+    if(!firebase.apps.length) {
+      firebase.initializeApp({
+        apiKey: "AIzaSyC02ylU8_0j3D01Y0YyYkJi5fA-q_T20iM",
+        authDomain: "scavenger-5be15.firebaseapp.com",
+        databaseURL: "https://scavenger-5be15.firebaseio.com",
+        projectId: "scavenger-5be15",
+        storageBucket: "scavenger-5be15.appspot.com",
+        messagingSenderId: "75285980680"
+      });
+    }
   }
 
   static getMessageRef(user) {
@@ -18,7 +20,7 @@ export default class FirebaseMain {
   }
 
   static getLocationRef(user) {
-    return firebase.database().ref(user + '/locations');
+    return firebase.database().ref(user + '/location');
   }
 
   static addMessage(user, message) {
@@ -27,5 +29,9 @@ export default class FirebaseMain {
 
   static addLocation(user, location) {
     this.getLocationRef(user).push(location);
+  }
+
+  static setLocation(user, location) {
+    this.getLocationRef(user).set(location);
   }
 }
