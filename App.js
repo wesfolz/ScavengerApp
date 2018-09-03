@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, Button, ScrollView} from 'react-native';
+import { DrawerNavigator, SafeAreaView } from 'react-navigation';
+
 import Chat from './components/Chat.js';
 import ScavengerMain from './components/ScavengerMain.js';
 import FirebaseMain from './database/FirebaseMain.js';
 import Geolocation from './geolocation/Geolocation.js';
 import HeaderBar from './components/HeaderBar.js';
-import { DrawerNavigator, SafeAreaView } from 'react-navigation';
 import NavigationService from './NavigationService.js';
 
 type Props = {};
@@ -20,11 +21,13 @@ export default class App extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-      <HeaderBar headerText={'Header Text'} leftIconName={'message-text'} leftIconPress={() => NavigationService.openDrawer()}
-          rightIconName={'emoticon-poop'}/>
-      <DrawerComponent 
-        ref={navigatorRef => {
-        NavigationService.setTopLevelNavigator(navigatorRef);}}/>
+        <HeaderBar headerText={'Header Text'} leftIconName={'message-text'} leftIconPress={() => NavigationService.openDrawer()}
+            rightIconName={'emoticon-poop'}
+        />
+        <DrawerComponent 
+          ref={navigatorRef => {
+          NavigationService.setTopLevelNavigator(navigatorRef);}}
+        />
       </View>
     );
   }

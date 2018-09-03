@@ -1,31 +1,41 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, Button, Linking, Image} from 'react-native';
-import Chat from './Chat.js';
-import ClueButton from './ClueButton';
-//import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
+import FirebaseMain from '../database/FirebaseMain.js';
+import Chat from './Chat.js';
+import ClueButton from './ClueButton';
 import HeaderBar from './HeaderBar.js';
-import TextModal from './TextModal.js';
+import BurgerModal from './BurgerModal.js';
+import CodeModal from './CodeModal.js';
 
 export default class ScavengerMain extends Component {
 
   static navigationOptions = {
     drawerLabel: 'Main',
-    drawerIcon: () => (
-      <Icon name='chat' size={30} />
-    ),
   };
 
   constructor() {
     super();
+    this.state = {
+      dogFoodGoal: {
+        code: 'na'
+      }
+    };
   }
-
   /*
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.geoloactor.watchId);
   }
   */
+
+  componentDidMount() {
+    FirebaseMain.getGoalRef('dogfood').once('value').then((goal) => this.setDogFoodGoal(goal));
+  }
+
+  setDogFoodGoal(goal) {
+    this.setState({dogFoodGoal: goal.val()});
+  }
 
   render() {
     return (
@@ -35,13 +45,9 @@ export default class ScavengerMain extends Component {
             style={styles.ringImage}
             resizeMode="contain"
           />
-          <Icon name={'lock'} size={30} color={'black'} onPress = {() => 
-            this.props.navigation.navigate('Chat')}/>
-
-          <Icon name={'lock'} size={30} color={'black'} onPress = {() => 
-            this.props.navigation.navigate('Chat')}/>
-
-          <TextModal text={'I think Papa is hungry!'}/>
+          <CodeModal goal={this.state.dogFoodGoal} text={'Peach and I are hungry!'}/>
+          <BurgerModal text={'I think Papa is thirsty!'}/>
+          <BurgerModal text={'I think Papa is hungry!'}/>
         </View>
     );
   }
@@ -61,12 +67,6 @@ const styles = StyleSheet.create({
     height: '100%', //undefined
     top: 0, 
     left: 0, 
-  },
-  messagesButton: {
-    backgroundColor: '#000000',
-    /*position: 'absolute',
-    top: 10,
-    right: 10*/
   },
   overlay: {
     flex: 1,

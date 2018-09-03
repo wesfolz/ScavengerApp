@@ -1,7 +1,6 @@
 import firebase from 'react-native-firebase'; 
 
 export default class FirebaseMain {
-  // 2.
   static init() {
     if(!firebase.apps.length) {
       firebase.initializeApp({
@@ -23,6 +22,14 @@ export default class FirebaseMain {
     return firebase.database().ref(user + '/location');
   }
 
+  static getGoalRef(goal) {
+    return firebase.database().ref('Goals/' + goal);
+  }
+
+  static getGoalStatusRef(goal) {
+    return firebase.database().ref('Goals/' + goal +'/status');
+  }
+
   static addMessage(user, message) {
     this.getMessageRef(user).push(message);
   }
@@ -33,5 +40,9 @@ export default class FirebaseMain {
 
   static setLocation(user, location) {
     this.getLocationRef(user).set(location);
+  }
+
+  static setGoalStatus(goalName, status) {
+    this.getGoalStatusRef(goalName).set(status);
   }
 }
