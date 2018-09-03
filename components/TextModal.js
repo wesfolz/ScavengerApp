@@ -30,12 +30,15 @@ export default class VideoModal extends Component {
                   this.setModalVisible(!this.state.modalVisible);
                 }}/>
               <View style={styles.cardContent}>
-                <Text style={styles.text}>{this.props.text}</Text>
+                <View style={{backgroundColor: '#00000015', borderRadius: 8, width: '80%', height: '80%', justifyContent: 'center', alignItems: 'center'}}>
+                  <Text style={styles.text}>{this.props.text}</Text>
                   <Icon name="youtube" size={50} color="#ce2522" onPress={ () => {
-                      Linking.openURL('https://www.youtube.com/watch?v=oxv6-npAxpY')}
-                    }
-                  />
-                  <Text>Play Video</Text>
+                    Linking.openURL('https://www.youtube.com/watch?v=oxv6-npAxpY')}
+                  }
+                />
+                </View>
+
+                {/*<Text>Play Video</Text>*/}
               </View>
             </View>
           </View>
@@ -57,6 +60,7 @@ const styles = StyleSheet.create({
   },
   card: {
     //flex: 1,
+    borderRadius: 8,
     flexDirection: 'column',
     backgroundColor: '#ffdb58',//'#ce2522',//'#ffdb58',
     justifyContent: 'flex-start',
@@ -66,6 +70,8 @@ const styles = StyleSheet.create({
     height: '50%'
   },
   cardContent: {
+    flex: 1,
+    borderRadius: 8,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',

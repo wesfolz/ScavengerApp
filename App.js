@@ -4,9 +4,9 @@ import Chat from './components/Chat.js';
 import ScavengerMain from './components/ScavengerMain.js';
 import FirebaseMain from './database/FirebaseMain.js';
 import Geolocation from './geolocation/Geolocation.js';
-
-import { DrawerNavigator, SafeAreaView  } from 'react-navigation';
-
+import HeaderBar from './components/HeaderBar.js';
+import { DrawerNavigator, SafeAreaView } from 'react-navigation';
+import NavigationService from './NavigationService.js';
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -19,7 +19,13 @@ export default class App extends Component<Props> {
 
   render() {
     return (
-      <DrawerComponent />
+      <View style={styles.container}>
+      <HeaderBar headerText={'Header Text'} leftIconName={'message-text'} leftIconPress={() => NavigationService.openDrawer()}
+          rightIconName={'emoticon-poop'}/>
+      <DrawerComponent 
+        ref={navigatorRef => {
+        NavigationService.setTopLevelNavigator(navigatorRef);}}/>
+      </View>
     );
   }
 }
@@ -28,7 +34,11 @@ const DrawerComponent = DrawerNavigator({
   Main: {
       screen: ScavengerMain,
   },
-}, {
+  Chat: {
+    screen: Chat,
+  }
+}, 
+{
   drawerPosition: 'left',
   contentComponent: (props) => (
 	  	<SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>

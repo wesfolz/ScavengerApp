@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, Button, Linking, Image} from 'react-native';
 import Chat from './Chat.js';
 import ClueButton from './ClueButton';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+//import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/FontAwesome'
+
 import HeaderBar from './HeaderBar.js';
 import TextModal from './TextModal.js';
 
@@ -28,21 +30,19 @@ export default class ScavengerMain extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image
-          source={require('../images/quadcopter.jpg')}
-          style={styles.ringImage}
-          resizeMode="contain"
-        />
-        <HeaderBar headerText={'Header Text'} leftIconName={'message-text'} leftIconPress={() => this.props.navigation.openDrawer()}
-          rightIconName={'emoticon-poop'}/>
-        {/*<ClueButton onPress={() => this.setState({displayModal: true})}/>*/}
-        <TextModal text={'I think Papa is hungry!'}/>
-        <View style={{position: 'absolute', left: 100, top: 200, width: 100, height: 100, backgroundColor: '#ffffff80'}} />
-        {/*<Chat style={styles.overlay} fire={this.fire} user={this.user} interlocutor={'Puppy Jean'}/>*/}
-        {/*<View style={styles.container}>*/}
-          {/*<Button title="Click me" onPress={ ()=>{ Linking.openURL('https://www.youtube.com/watch?v=oxv6-npAxpY')}} />*/}
-        {/*</View>*/}
-      </View>
+          <Image
+            source={require('../images/ring_2.png')}
+            style={styles.ringImage}
+            resizeMode="contain"
+          />
+          <Icon name={'lock'} size={30} color={'black'} onPress = {() => 
+            this.props.navigation.navigate('Chat')}/>
+
+          <Icon name={'lock'} size={30} color={'black'} onPress = {() => 
+            this.props.navigation.navigate('Chat')}/>
+
+          <TextModal text={'I think Papa is hungry!'}/>
+        </View>
     );
   }
 }
@@ -50,9 +50,10 @@ export default class ScavengerMain extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: 'row',
     backgroundColor: '#ffffff',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
   ringImage: {
     position: 'absolute', //flex 1

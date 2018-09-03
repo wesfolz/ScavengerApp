@@ -22,11 +22,3 @@ export default class ClueButton extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  closeButton: {
-    position: 'absolute',
-    right: 10,
-    top: 10,
-  }
-});
