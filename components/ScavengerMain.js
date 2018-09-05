@@ -30,11 +30,7 @@ export default class ScavengerMain extends Component {
   */
 
   componentDidMount() {
-    FirebaseMain.getGoalRef('dogfood').once('value').then((goal) => this.setDogFoodGoal(goal));
-  }
-
-  setDogFoodGoal(goal) {
-    this.setState({dogFoodGoal: goal.val()});
+    FirebaseMain.getGoalRef('dogfood').once('value').then((goal) => this.setState({dogFoodGoal: goal.val()}));
   }
 
   render() {

@@ -18,7 +18,7 @@ export default class CodeModal extends Component {
   checkCode() {
     if(this.state.codeText === this.props.goal.code) {
       alert('Correct!');
-      FirebaseMain.setGoalStatus('dogfood', 'done');
+      FirebaseMain.setGoalStatus(this.props.goal.name, 'done');
 
     }
     else {
