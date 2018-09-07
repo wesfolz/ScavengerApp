@@ -4,6 +4,8 @@ import { DrawerNavigator, SafeAreaView } from 'react-navigation';
 
 import Chat from './components/Chat.js';
 import ScavengerMain from './components/ScavengerMain.js';
+import DogClueScreen from './components/DogClueScreen.js';
+import TravelClueScreen from './components/TravelClueScreen.js';
 import FirebaseMain from './database/FirebaseMain.js';
 import Geolocation from './geolocation/Geolocation.js';
 import HeaderBar from './components/HeaderBar.js';
@@ -21,8 +23,8 @@ export default class App extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <HeaderBar headerText={'Header Text'} leftIconName={'message-text'} leftIconPress={() => NavigationService.openDrawer()}
-            rightIconName={'emoticon-poop'}
+        <HeaderBar headerText={'Where is papa?'} leftIconName={'chat-bubble-outline'} leftIconPress={() => NavigationService.openDrawer()}
+            rightIconName={'navigate-next'} rightIconPress={() => NavigationService.navigate('First') }
         />
         <DrawerComponent 
           ref={navigatorRef => {
@@ -35,7 +37,13 @@ export default class App extends Component<Props> {
 
 const DrawerComponent = DrawerNavigator({
   Main: {
-      screen: ScavengerMain,
+    screen: ScavengerMain,
+  },
+  First: {
+    screen: DogClueScreen,
+  },
+  Second: {
+    screen: TravelClueScreen,
   },
   Chat: {
     screen: Chat,

@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default class HeaderBar extends Component {
   static defaultProps = {
     backgroundColor: '#4F4F4F',
-    textColor: 'black',
+    textColor: '#56CCF2',
     iconColor: '#56CCF2'
   };
 

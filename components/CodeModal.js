@@ -11,8 +11,16 @@ export default class CodeModal extends Component {
     codeText: ''
   };
 
+  static defaultProps = {
+    bodyText: '',
+    headerText: '',
+    iconName: 'lock-question',
+  };
+
   setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+    if(this.props.goal.status != 'locked') {
+      this.setState({modalVisible: visible});
+    }
   }
 
   checkCode() {
@@ -39,15 +47,15 @@ export default class CodeModal extends Component {
           <View style={styles.overlay}>
             <View style={styles.card}>
               <View style={styles.headerContainer}>
-                <Icon name={'lock-question'} size={30} color={'#E0E0E0'} underlayColor='#000000' style={styles.headerIcon}/>
-                <Text style={styles.headerText}>{"There's some right here!"}</Text>
+                <Icon name={this.props.iconName} size={30} color={'#E0E0E0'} underlayColor='#000000' style={styles.headerIcon}/>
+                <Text style={styles.headerText}>{this.props.headerText}</Text>
                 <Icon name={'close-circle'} size={30} color={'#E0E0E0'} 
                   underlayColor='#000000' style={styles.headerIcon} onPress={() => { this.setModalVisible(!this.state.modalVisible);
                 }}/>
               </View>
               <View style={styles.cardContent}>
                 <View style={styles.textBackground}>
-                  <Text style={styles.text}>{this.props.text}</Text>
+                  <Text style={styles.text}>{this.props.bodyText}</Text>
                   <TextInput onChangeText={(text) => this.setState({codeText: text})} value={this.state.codeText}
                     style={{backgroundColor: '#F2F2F2', width: '50%', margin: 10, height: 40}}/>
                   <Button title={'Submit'} onPress={ () => this.checkCode()}/>
@@ -56,7 +64,7 @@ export default class CodeModal extends Component {
             </View>
           </View>
         </Modal>
-        <ClueButton onPress={() => this.setState({modalVisible: true})}/>
+        <ClueButton status={this.props.goal.status} onPress={() => this.setModalVisible(true)}/>
       </View>
     );
   }
@@ -117,5 +125,7 @@ const styles = StyleSheet.create({
     color: 'black', 
     justifyContent: 'center',
     alignItems: 'center',
+    textAlign: 'center',
+    width: '50%',
   }
 });

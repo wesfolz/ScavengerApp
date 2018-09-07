@@ -30,7 +30,7 @@ export default class ScavengerMain extends Component {
   */
 
   componentDidMount() {
-    FirebaseMain.getGoalRef('dogfood').once('value').then((goal) => this.setState({dogFoodGoal: goal.val()}));
+    //FirebaseMain.getGoalRef('dogfood').once('value').then((goal) => this.setState({dogFoodGoal: goal.val()}));
   }
 
   render() {
@@ -41,7 +41,6 @@ export default class ScavengerMain extends Component {
             style={styles.ringImage}
             resizeMode="contain"
           />
-          <CodeModal goal={this.state.dogFoodGoal} text={'Peach and I are hungry!'}/>
           <BurgerModal text={'I think Papa is thirsty!'}/>
           <BurgerModal text={'I think Papa is hungry!'}/>
         </View>
