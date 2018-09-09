@@ -53,7 +53,8 @@ export default class DogClueScreen extends Component {
           <Image
             source={require('../images/ring_0.png')}
             style={styles.ringImage}
-            resizeMode="contain"
+            resizeMode="cover"
+            blurRadius={2}
           />
           <CodeModal iconName={'food'} goal={this.state.dogFoodGoal} 
             headerText={'Peach and I are hungry!'} bodyText={"Enter the code when you're done feeding us:"}/>

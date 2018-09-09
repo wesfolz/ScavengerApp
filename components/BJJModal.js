@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ClueButton from './ClueButton.js';
 import HeaderBar from './HeaderBar.js';
 
-export default class BurgerModal extends Component {
+export default class BJJModal extends Component {
   state = {
     modalVisible: false,
   };
@@ -102,11 +102,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'black', 
-    fontFamily: "Bob's Burgers",
-    fontSize: 20,
+    fontFamily: "Roboto",
+    fontSize: 12,
     justifyContent: 'center',
     alignItems: 'center',
-    textAlign: 'center',
-    width: '80%',
   }
 });

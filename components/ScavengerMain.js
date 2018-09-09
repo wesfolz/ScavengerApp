@@ -11,17 +11,8 @@ import CodeModal from './CodeModal.js';
 
 export default class ScavengerMain extends Component {
 
-  static navigationOptions = {
-    drawerLabel: 'Main',
-  };
-
   constructor() {
     super();
-    this.state = {
-      dogFoodGoal: {
-        code: 'na'
-      }
-    };
   }
   /*
   componentWillUnmount() {
@@ -37,11 +28,11 @@ export default class ScavengerMain extends Component {
     return (
       <View style={styles.container}>
           <Image
-            source={require('../images/ring_2.png')}
+            source={require('../images/ring.jpg')}
             style={styles.ringImage}
             resizeMode="contain"
           />
-          <BurgerModal text={'I think Papa is thirsty!'}/>
+          <BurgerModal text={"This video may provide a clue as to Papa's whereabouts:"}/>
           <BurgerModal text={'I think Papa is hungry!'}/>
         </View>
     );
@@ -55,6 +46,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     justifyContent: 'space-around',
     alignItems: 'center',
+    width: '100%',
+    height: '100%',
   },
   ringImage: {
     position: 'absolute', //flex 1
@@ -62,15 +55,5 @@ const styles = StyleSheet.create({
     height: '100%', //undefined
     top: 0, 
     left: 0, 
-  },
-  overlay: {
-    flex: 1,
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    opacity: 0.5,
-    backgroundColor: 'black',
-    height: 100,
-    width: 200
-  }  
+  }, 
 });

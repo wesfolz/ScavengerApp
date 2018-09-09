@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Image} from 'react-native';
+import {StyleSheet, View, Image, Animated} from 'react-native';
 
 import FirebaseMain from '../database/FirebaseMain.js';
 import CodeModal from './CodeModal.js';
+import BJJModal from './BJJModal.js';
 
-export default class DogClueScreen extends Component {
+export default class TravelClueScreen extends Component {
 
   constructor() {
     super();
@@ -15,6 +16,7 @@ export default class DogClueScreen extends Component {
       bjjGoal: {
         code: 'na'
       },
+      blurAnim: new Animated.Value(2),
     };
   }
 
@@ -29,8 +31,16 @@ export default class DogClueScreen extends Component {
   }
 
   updateFirstGoal(goal) {
-    if(goal.val().status === 'done' && this.state.bjjGoal.status === 'locked') {
-      FirebaseMain.setGoalStatus('bjj', 'unlocked');      
+    if(goal.val().status === 'done' && this.state.bjjGoal.status != 'done') {
+      FirebaseMain.setGoalStatus('bjj', 'unlocked');
+      Animated.timing(                  // Animate over time
+      this.state.blurAnim,            // The animated value to drive
+      {
+        toValue: 0,                   // Animate to opacity: 1 (opaque)
+        duration: 5000,              // Make it take a while
+        useNativeDriver: true, 
+      }
+    ).start();                        // Starts the animation
     }
 
     this.setState({
@@ -45,15 +55,18 @@ export default class DogClueScreen extends Component {
   }
 
   render() {
+    //let blurAnim = this.state.blurAnim;
     return (
       <View style={styles.container}>
-          <Image
+          <Animated.Image
             source={require('../images/ring_1.png')}
             style={styles.ringImage}
-            resizeMode="contain"
+            resizeMode="cover"
+            blurRadius={this.state.blurAnim}
           />
-          <CodeModal iconName={'car'} goal={this.state.carGoal} 
-            headerText={'Maybe Papa left the house?'} bodyText={"Enter the code:"}/>
+
+          {/*<CodeModal iconName={'car'} goal={this.state.carGoal} 
+            headerText={'Maybe Papa left the house?'} bodyText={"Enter the code:"}/>*/}
           <CodeModal iconName={'emoticon-poop'} goal={this.state.bjjGoal} 
             headerText={'Peach and I have to poop!'} bodyText={"Enter the code when we're done pooping:"}/>
         </View>

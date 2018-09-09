@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class HeaderBar extends Component {
   static defaultProps = {
@@ -16,11 +16,18 @@ export default class HeaderBar extends Component {
   render() {
     return (
       <View style={[styles.container, {backgroundColor: this.props.backgroundColor}]}>
-        <Icon name={this.props.leftIconName} size={30} color={this.props.iconColor} 
-          style={[styles.messagesButton, {backgroundColor: this.props.backgroundColor}]} underlayColor='#000000' onPress={this.props.leftIconPress}/>
+        <TouchableHighlight underlayColor={'grey'} onPress={this.props.leftIconPress}>
+          <Icon name={this.props.leftIconName} size={30} color={this.props.iconColor} 
+            style={[styles.messagesButton, {backgroundColor: this.props.backgroundColor}]} 
+          />
+        </TouchableHighlight>
+
         <Text style={[styles.headerText, {color: this.props.textColor}]}>{this.props.headerText}</Text>
-        <Icon name={this.props.rightIconName} size={30} color={this.props.iconColor} 
-          style={[styles.messagesButton, {backgroundColor: this.props.backgroundColor}]} underlayColor='#000000' onPress={this.props.rightIconPress}/>
+        <TouchableHighlight underlayColor={'grey'} onPress={this.props.rightIconPress}>
+          <Icon name={this.props.rightIconName} size={30} color={this.props.iconColor} 
+            style={[styles.messagesButton, {backgroundColor: this.props.backgroundColor}]} 
+          />
+        </TouchableHighlight>
       </View>
     );
   }
@@ -32,6 +39,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: 54,
+    width: '100%',
   },
   messagesButton: {
     margin: 12,

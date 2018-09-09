@@ -20,7 +20,7 @@ export default class Chat extends Component {
   sortMessages() {
     var messages = [].concat(this.state.messages);
     messages.sort(this.compareMessages);
-    this.setState({messages: messages}, this.logMessages);
+    this.setState({messages: messages});//, this.logMessages);
   }
 
   logMessages() {

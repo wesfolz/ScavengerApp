@@ -42,7 +42,7 @@ export default class ClueButton extends Component {
 
   render() {
     return (
-      <Icon name={this.getIconName()} size={50} color={this.getColor()}
+      <Icon name={this.getIconName()} size={100} color={this.getColor()}
         onPress={this.props.onPress}
       //onPress={() => { this.setState({iconName: 'check-circle', iconColor: '#228B22'})}}
       />
