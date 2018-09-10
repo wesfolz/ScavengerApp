@@ -5,8 +5,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export default class HeaderBar extends Component {
   static defaultProps = {
     backgroundColor: '#4F4F4F',
-    textColor: '#56CCF2',
-    iconColor: '#56CCF2'
+    textColor: '#F2994A',
+    iconColor: '#F2994A'
   };
 
   constructor() {

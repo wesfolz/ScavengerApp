@@ -13,6 +13,12 @@ export default class ScavengerMain extends Component {
 
   constructor() {
     super();
+
+    this.state = {
+      burgerGoal: {
+        code: 'na',
+      }
+    }
   }
   /*
   componentWillUnmount() {
@@ -21,7 +27,11 @@ export default class ScavengerMain extends Component {
   */
 
   componentDidMount() {
-    //FirebaseMain.getGoalRef('dogfood').once('value').then((goal) => this.setState({dogFoodGoal: goal.val()}));
+    FirebaseMain.getGoalRef('fiveguys').on('value', (goal) => this.setState({burgerGoal: goal.val()}));
+  }
+
+  componentWillUnmount() {
+    FirebaseMain.getGoalRef('fiveguys').off('value');
   }
 
   render() {
@@ -30,10 +40,10 @@ export default class ScavengerMain extends Component {
           <Image
             source={require('../images/ring.jpg')}
             style={styles.ringImage}
-            resizeMode="contain"
+            resizeMode="cover"
+            blurRadius={8}
           />
-          <BurgerModal text={"This video may provide a clue as to Papa's whereabouts:"}/>
-          <BurgerModal text={'I think Papa is hungry!'}/>
+          <BurgerModal goal={this.state.burgerGoal} text={"This video may provide a clue as to Papa's whereabouts:"}/>
         </View>
     );
   }

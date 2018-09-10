@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     margin: 12,
   },
   headerText: {
-    color: 'black',
+    color: 'white',
     fontSize: 16,
     fontFamily: "Roboto",
     margin: 12,

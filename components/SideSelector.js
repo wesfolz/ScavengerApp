@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { StyleSheet, View, TouchableHighlight } from 'react-native';
 import NavigationService from '../NavigationService.js';
 
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 export default class SideSelector extends Component {
@@ -10,7 +10,7 @@ export default class SideSelector extends Component {
     selectedSize: 50,
     normalSize: 25,
     normalColor: '#000000',
-    selectedColor: '#56CCF2',
+    selectedColor: '#6FCF97',
     selectorPress: console.log,
     selectedIndex: 0,
     selectorItems: [],
@@ -61,6 +61,6 @@ const styles = StyleSheet.create({
   },
   selector: {
     marginRight: 5, 
-    marginBottom: 0
+    marginBottom: 2,
   }
 });

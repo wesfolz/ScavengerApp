@@ -44,7 +44,7 @@ export default class BurgerModal extends Component {
             </View>
           </View>
         </Modal>
-        <ClueButton onPress={() => this.setState({modalVisible: true})}/>
+        <ClueButton status={this.props.goal.status} onPress={() => this.setState({modalVisible: true})}/>
       </View>
     );
   }

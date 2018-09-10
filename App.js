@@ -26,7 +26,7 @@ export default class App extends Component<Props> {
       selectorItems: [
           'home',
           'car',
-          'lock',
+          'question-circle',
           'lock',
           'lock',
           'lock',

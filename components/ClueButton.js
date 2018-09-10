@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/FontAwesome5'
 
 export default class ClueButton extends Component {
 
@@ -14,10 +14,10 @@ export default class ClueButton extends Component {
         return 'lock';
 
       case 'unlocked':
-        return 'question-circle-o';
+        return 'question';
 
       case 'done':
-        return 'check-circle-o';
+        return 'check';
 
       default:
         return 'lock';
@@ -42,7 +42,7 @@ export default class ClueButton extends Component {
 
   render() {
     return (
-      <Icon name={this.getIconName()} size={100} color={this.getColor()}
+      <Icon name={this.getIconName()} size={250} color={this.getColor()}
         onPress={this.props.onPress}
       //onPress={() => { this.setState({iconName: 'check-circle', iconColor: '#228B22'})}}
       />
