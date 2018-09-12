@@ -56,11 +56,12 @@ export default class SideSelector extends Component {
 const styles = StyleSheet.create({
   sideSelector: {
     flexDirection:'column',
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   selector: {
     marginRight: 5, 
     marginBottom: 2,
+    alignItems: 'center',
   }
 });

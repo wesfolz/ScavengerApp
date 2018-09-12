@@ -46,18 +46,17 @@ export default class App extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.screenContainer}>
-          <DrawerComponent 
-            ref={navigatorRef => {
-            NavigationService.setTopLevelNavigator(navigatorRef);}}
-          />
-        </View>
-        <View style={styles.headerContainer}>
+        <View style={styles.container}>
           <HeaderBar headerText={'Where is papa?'} leftIconName={'comment-o'} 
             leftIconPress={() => NavigationService.openDrawer()}
             rightIconName={'question-circle-o'} 
             rightIconPress={() => this.navigate(this.state.selectedIndex + 1) }
           />
+          <DrawerComponent 
+            ref={navigatorRef => {NavigationService.setTopLevelNavigator(navigatorRef);}}
+          />
+        </View>
+        <View style={styles.sidebarContainer}>
           <SideSelector selectorPress={(index) => this.navigate(index)} 
             selectedIndex={this.state.selectedIndex} selectorItems={this.state.selectorItems}/>
         </View>
@@ -84,27 +83,20 @@ const DrawerComponent = DrawerNavigator({
   drawerPosition: 'left',
   contentComponent: (props) => (
 	  	<SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
-	    	<Chat user={'Alexa'} interlocutor={'Puppy Jean'}/>
+	    	<Chat user={'Alexa'} interlocutor={'Peach'} onReceiveMethod={() => NavigationService.openDrawer()}/>
 	    </SafeAreaView>
   )
 });
 
 const styles = StyleSheet.create({
-headerContainer: {
-    //flex: 1,
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-  },
-  screenContainer: {
+  sidebarContainer: {
     position: 'absolute',
-    top: 0,
+    top: 54,
     left: 0,
+    alignItems: 'flex-end',
     width: '100%',
-    height: '100%',
   },
   container: {
     flex: 1,
-    //flexDirection: 'column',
-    //alignItems: 'flex-end',
   },
 });

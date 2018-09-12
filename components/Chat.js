@@ -6,14 +6,14 @@ export default class Chat extends Component {
   
   constructor(props){
     super(props);
-  }
-
-  state = {
-    messages: [],
+    this.state = {
+      messages: [],
+    }
+    this.firstCall = true;
   }
 
   componentWillMount() {
-    FirebaseMain.getMessageRef(this.props.user).on('child_added', (data) => this.updateMessages(data.val()));
+    FirebaseMain.getMessageRef(this.props.user).on('child_added', (data) => this.messageReceived(data.val()));
     FirebaseMain.getMessageRef(this.props.interlocutor).once('value').then((data) => this.populateMessages(data.val()));
   }
 
@@ -47,6 +47,14 @@ export default class Chat extends Component {
     this.setState({
       messages: messages,
     }, this.sortMessages);
+    this.firstCall = false;
+  }
+
+  messageReceived(messages) {
+    if(this.props.onReceiveMethod != null && !this.firstCall) {
+      this.props.onReceiveMethod();
+    }
+    this.updateMessages(messages);
   }
 
   updateMessages(messages) {
@@ -67,7 +75,7 @@ export default class Chat extends Component {
         onSend={messages => this.onSend(messages)}
         user={{
           _id: 1,
-          name: this.props.user
+          name: this.props.user,
         }}
       />
     )
