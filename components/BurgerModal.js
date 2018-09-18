@@ -5,9 +5,13 @@ import ClueButton from './ClueButton.js';
 import HeaderBar from './HeaderBar.js';
 
 export default class BurgerModal extends Component {
-  state = {
-    modalVisible: false,
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalVisible: false,
+    };
+  }
 
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
@@ -27,14 +31,14 @@ export default class BurgerModal extends Component {
             <View style={styles.card}>
               <View style={styles.headerContainer}>
                 <Icon name={'lock-question'} size={30} color={'#ffdb58'} underlayColor='#000000' style={styles.headerIcon}/>
-                <Text style={styles.headerText}>{"There's some right here!"}</Text>
+                <Text style={styles.headerText}>{this.props.headerText}</Text>
                 <Icon name={'close-circle'} size={30} color={'#ffdb58'} 
                   underlayColor='#000000' style={styles.headerIcon} onPress={() => { this.setModalVisible(!this.state.modalVisible);
                 }}/>
               </View>
               <View style={styles.cardContent}>
                 <View style={styles.textBackground}>
-                  <Text style={styles.text}>{this.props.text}</Text>
+                  <Text style={styles.text}>{this.props.bodyText}</Text>
                   <Icon name="youtube" size={50} color="#ce2522" onPress={ () => {
                     Linking.openURL('https://www.youtube.com/watch?v=oxv6-npAxpY')}}
                   />

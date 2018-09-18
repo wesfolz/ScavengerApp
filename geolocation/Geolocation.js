@@ -30,6 +30,10 @@ export default class Geolocation {
     );
   }
 
+  clearWatch() {
+    navigator.geolocation.clearWatch(this.watchId);
+  }
+
   updateLocation(position) {
     if(this.goal != null) {
       var distance = this.getDistanceFromLatLonInM(position.coords.latitude, position.coords.longitude, 

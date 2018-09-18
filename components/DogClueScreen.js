@@ -6,8 +6,8 @@ import CodeModal from './CodeModal.js';
 
 export default class DogClueScreen extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       dogFoodGoal: {
         code: 'na'

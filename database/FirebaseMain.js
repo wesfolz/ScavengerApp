@@ -21,6 +21,10 @@ export default class FirebaseMain {
   static getLocationRef(user) {
     return firebase.database().ref(user + '/location');
   }
+  
+  static getGoalsRef() {
+    return firebase.database().ref('Goals');
+  }
 
   static getGoalRef(goal) {
     return firebase.database().ref('Goals/' + goal);
@@ -30,19 +34,27 @@ export default class FirebaseMain {
     return firebase.database().ref('Goals/' + goal +'/status');
   }
 
+  static getCurrentGoalRef() {
+    return firebase.database().ref('CurrentGoal');
+  }
+
   static addMessage(user, message) {
-    this.getMessageRef(user).push(message);
+    FirebaseMain.getMessageRef(user).push(message);
   }
 
   static addLocation(user, location) {
-    this.getLocationRef(user).push(location);
+    FirebaseMain.getLocationRef(user).push(location);
   }
 
   static setLocation(user, location) {
-    this.getLocationRef(user).set(location);
+    FirebaseMain.getLocationRef(user).set(location);
   }
 
   static setGoalStatus(goalName, status) {
-    this.getGoalStatusRef(goalName).set(status);
+    FirebaseMain.getGoalStatusRef(goalName).set(status);
+  }
+
+  static setCurrentGoal(goal) {
+    FirebaseMain.getCurrentGoalRef().set(goal);
   }
 }

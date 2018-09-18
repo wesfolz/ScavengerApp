@@ -31,17 +31,11 @@ export default class SideSelector extends Component {
   }
 
   displaySelectors() {
-    let icons = [];
-    for (let i=0; i < this.props.selectorItems.length; i++) {
-      //let selector = this.props.selectorItems[i];
-      let size = (i === this.props.selectedIndex ? this.props.selectedSize : this.props.normalSize);
-      let color = (i === this.props.selectedIndex ? this.props.selectedColor : this.props.normalColor);
-      icons.push(
-        <TouchableHighlight key={i} underlayColor={'grey'} onPress={() => this.props.selectorPress(i)}>
-          <Icon name={this.props.selectorItems[i]} size={size} color={color} style={styles.selector}/>
-        </TouchableHighlight>);
-    }
-    return icons;
+    return this.props.selectorItems.map((item, index) => (
+       <Icon key={index} name={item} onPress={() => this.props.selectorPress(index)}
+        size={(index === this.props.selectedIndex ? this.props.selectedSize : this.props.normalSize)} 
+        color={(index === this.props.selectedIndex ? this.props.selectedColor : this.props.normalColor)}
+        style={styles.selector}/>));
   }
 
   render() {

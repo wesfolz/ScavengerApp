@@ -21,26 +21,27 @@ export default class BJJModal extends Component {
           transparent={true}
           visible={this.state.modalVisible}
           onRequestClose={() => {
-            this.setModalVisible(false);
-        }}>
+            this.setModalVisible(false)}}
+        >
           <View style={styles.overlay}>
             <View style={styles.card}>
-              <View style={styles.headerContainer}>
-                <Icon name={'lock-question'} size={30} color={'#ffdb58'} underlayColor='#000000' style={styles.headerIcon}/>
-                <Text style={styles.headerText}>{"There's some right here!"}</Text>
-                <Icon name={'close-circle'} size={30} color={'#ffdb58'} 
-                  underlayColor='#000000' style={styles.headerIcon} onPress={() => { this.setModalVisible(!this.state.modalVisible);
-                }}/>
+              <View style={[styles.stripe, styles.headerContainer]}>
+                <Icon name={'octagon'} size={30} color={'#BDBDBD'} style={styles.headerIcon}/>
+                <Text style={styles.headerText}>{this.props.headerText}</Text>
+                <Icon name={'close-circle'} size={30} color={'#BDBDBD'} 
+                  style={styles.headerIcon} onPress={() => {this.setModalVisible(!this.state.modalVisible)}}
+              />
               </View>
-              <View style={styles.cardContent}>
-                <View style={styles.textBackground}>
-                  <Text style={styles.text}>{this.props.text}</Text>
-                  <Icon name="youtube" size={50} color="#ce2522" onPress={ () => {
+              <View style={[styles.stripe, {backgroundColor: '#A0522D'}]}/>
+              <View style={[styles.stripe, {backgroundColor: '#9B51E0'}]}>
+                <Text style={styles.text}>{this.props.bodyText}</Text>
+              </View>
+              <View style={[styles.stripe, {backgroundColor: '#2F80ED'}]}>
+                <Icon name="youtube" size={50} color="#ce2522" onPress={ () => {
                     Linking.openURL('https://www.youtube.com/watch?v=oxv6-npAxpY')}}
-                  />
-                </View>
-                {/*<Text>Play Video</Text>*/}
+                />
               </View>
+              <View style={[styles.stripe, {backgroundColor: '#ffffff'}]}/>
             </View>
           </View>
         </Modal>
@@ -59,52 +60,44 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   card: {
-    borderRadius: 8,
+    borderRadius: 4,
     flexDirection: 'column',
-    backgroundColor: '#ffdb58',
-    justifyContent: 'flex-start',
     width: '90%', 
-    height: '50%'
-  },
-  cardContent: {
-    flex: 1,
-    borderRadius: 8,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderWidth: 5,
+    borderColor: '#4F4F4F',
+    backgroundColor: '#4F4F4F',
   },
   headerContainer: {
-    borderRadius: 8,
     flexDirection: 'row',
-    backgroundColor: '#ce2522',
+    backgroundColor: '#000000',
     justifyContent: 'space-between',
-    alignItems: 'center',
+  },
+  stripe: {
     height: 54,
+    borderRadius: 3,
+    flexDirection: 'row',
+    backgroundColor: '#000000',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headerIcon:
   {
-    backgroundColor: '#ce2522',
+    backgroundColor: 'black',
     margin: 12,
   },
   headerText: {
-    color: 'black',
-    fontSize: 30,
-    fontFamily: "Bob's Burgers",
+    color: '#BDBDBD',
+    fontSize: 18,
+    fontFamily: "Roboto",
     margin: 12,
   },
-  textBackground: {
-    backgroundColor: '#00000015', 
-    borderRadius: 8, 
-    width: '80%', 
-    height: '80%', 
-    justifyContent: 'center', 
-    alignItems: 'center'
-  },
   text: {
-    color: 'black', 
+    color: 'white', 
     fontFamily: "Roboto",
-    fontSize: 12,
+    fontSize: 14,
+    margin: 12,
     justifyContent: 'center',
     alignItems: 'center',
+    textAlign: 'center',
   }
 });

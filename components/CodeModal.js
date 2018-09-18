@@ -6,16 +6,20 @@ import HeaderBar from './HeaderBar.js';
 import FirebaseMain from '../database/FirebaseMain.js';
 
 export default class CodeModal extends Component {
-  state = {
-    modalVisible: false,
-    codeText: ''
-  };
 
   static defaultProps = {
     bodyText: '',
     headerText: '',
     iconName: 'lock-question',
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalVisible: false,
+      codeText: ''
+    };
+  }
 
   setModalVisible(visible) {
     if(this.props.goal.status != 'locked') {
@@ -26,8 +30,7 @@ export default class CodeModal extends Component {
   checkCode() {
     if(this.state.codeText === this.props.goal.code) {
       alert('Correct!');
-      FirebaseMain.setGoalStatus(this.props.goal.name, 'done');
-
+      this.props.onGoalCompleted();
     }
     else {
       alert('Incorrect!');

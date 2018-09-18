@@ -23,11 +23,6 @@ export default class Chat extends Component {
     this.setState({messages: messages});//, this.logMessages);
   }
 
-  logMessages() {
-    for(var i=0; i<this.state.messages.length; i++)
-      console.log('&&&&&&&&&&& ' + this.state.messages[i].text + ' &&&&&&&&&&&');
-  }
-
   compareMessages(a, b) {
     if(a.createdAt < b.createdAt) {
       return 1;
