@@ -31,14 +31,14 @@ export default class BurgerModal extends Component {
             <View style={styles.card}>
               <View style={styles.headerContainer}>
                 <Icon name={'lock-question'} size={30} color={'#ffdb58'} underlayColor='#000000' style={styles.headerIcon}/>
-                <Text style={styles.headerText}>{this.props.headerText}</Text>
+                <Text style={styles.headerText}>{this.props.goal.headerText}</Text>
                 <Icon name={'close-circle'} size={30} color={'#ffdb58'} 
                   underlayColor='#000000' style={styles.headerIcon} onPress={() => { this.setModalVisible(!this.state.modalVisible);
                 }}/>
               </View>
               <View style={styles.cardContent}>
                 <View style={styles.textBackground}>
-                  <Text style={styles.text}>{this.props.bodyText}</Text>
+                  <Text style={styles.text}>{this.props.goal.bodyText}</Text>
                   <Icon name="youtube" size={50} color="#ce2522" onPress={ () => {
                     Linking.openURL('https://www.youtube.com/watch?v=oxv6-npAxpY')}}
                   />

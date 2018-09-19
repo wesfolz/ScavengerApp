@@ -27,14 +27,14 @@ export default class BJJModal extends Component {
             <View style={styles.card}>
               <View style={[styles.stripe, styles.headerContainer]}>
                 <Icon name={'octagon'} size={30} color={'#BDBDBD'} style={styles.headerIcon}/>
-                <Text style={styles.headerText}>{this.props.headerText}</Text>
+                <Text style={styles.headerText}>{this.props.goal.headerText}</Text>
                 <Icon name={'close-circle'} size={30} color={'#BDBDBD'} 
                   style={styles.headerIcon} onPress={() => {this.setModalVisible(!this.state.modalVisible)}}
               />
               </View>
               <View style={[styles.stripe, {backgroundColor: '#A0522D'}]}/>
               <View style={[styles.stripe, {backgroundColor: '#9B51E0'}]}>
-                <Text style={styles.text}>{this.props.bodyText}</Text>
+                <Text style={styles.text}>{this.props.goal.bodyText}</Text>
               </View>
               <View style={[styles.stripe, {backgroundColor: '#2F80ED'}]}>
                 <Icon name="youtube" size={50} color="#ce2522" onPress={ () => {
@@ -45,7 +45,7 @@ export default class BJJModal extends Component {
             </View>
           </View>
         </Modal>
-        <ClueButton onPress={() => this.setState({modalVisible: true})}/>
+        <ClueButton status={this.props.goal.status} onPress={() => this.setState({modalVisible: true})}/>
       </View>
     );
   }

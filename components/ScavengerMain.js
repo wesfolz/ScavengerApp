@@ -20,16 +20,23 @@ export default class ScavengerMain extends Component {
     FirebaseMain.init();
     this.geolocator = new Geolocation('Alexa');
     this.goals = [];
+    this.images = [
+      require("../images/ring_0.png"),
+      require("../images/ring_1.png"),
+      require("../images/ring_2.png"),
+      require("../images/ring_3.png"),
+      require("../images/ring_4.png"),
+      require("../images/ring_5.png"),
+      require("../images/ring_6.png"),
+      require("../images/ring.jpg"), 
+    ];
     this.state = {
-      currentGoal: {
-        code: 'na',
-      },
-      blurAnim: new Animated.Value(2),
+      blurAnim: new Animated.Value(8),
       selectedIndex: 0,
       selectorItems: [
         'home',
         'car',
-        'question-circle',
+        'lock-question',
         'lock',
         'lock',
         'lock',
@@ -43,8 +50,7 @@ export default class ScavengerMain extends Component {
   }
 
   componentWillUnmount() {
-    FirebaseMain.getCurrentGoalRef().off('value');
-    this.geolocator.clearWatch();
+    //this.geolocator.clearWatch();
   }
 
   setGoals(goals) {
@@ -53,6 +59,12 @@ export default class ScavengerMain extends Component {
       return goals[key];
     });
     this.goals.sort(this.compareGoals);
+    this.setState({
+      selectorItems: this.goals.map((goal) => {
+        return this.goalIconName(goal);
+      })
+    });
+
   }
 
   compareGoals(a, b) {
@@ -65,26 +77,33 @@ export default class ScavengerMain extends Component {
     return 0;
   }
 
+  goalIconName(goal) {
+    if(goal.status === "done") {
+      return goal.iconName;
+    }
+    else if(goal.status === "unlocked") {
+      return "lock-question";
+    }
+    return "lock";
+  }
+
   setCurrentGoal(goal) {
+    let currentGoal = goal;
     if(goal == null) {
-      this.currentGoal = this.goals[0];
-    }
-    else {
-      this.currentGoal = goal;
+      currentGoal = this.goals[this.state.selectedIndex];
     }
 
-    FirebaseMain.setCurrentGoal(this.currentGoal);
+    FirebaseMain.setCurrentGoal(currentGoal);
 
-    if(this.currentGoal.type === "location") {
-      this.geolocator.setGoal(this.currentGoal, this.onGoalCompleted);
+    if(currentGoal.type === "location") {
+      this.geolocator.setGoal(currentGoal, this.onGoalCompleted);
       //this.geolocator.watchLocation();
     }
   }
 
   onGoalCompleted() {
-    //TODO: add param to navigate call inidicating goal is complete
-    //this.navigate(this.currentGoal.index);
-    FirebaseMain.setGoalStatus(this.currentGoal.name, 'done');
+    FirebaseMain.setGoalStatus(this.goals[this.state.selectedIndex].name, 'done');
+ 
     Animated.timing(                  // Animate over time
     this.state.blurAnim,            // The animated value to drive
     {
@@ -92,38 +111,40 @@ export default class ScavengerMain extends Component {
       duration: 5000,              // Make it take a while
       useNativeDriver: true, 
     }).start();                        // Starts the animation
-    if(this.currentGoal.index < this.goals.length) {
-      this.setCurrentGoal(this.goals[this.currentGoal.index + 1]);
+
+    //TODO: Unhide the 'Next' button and do the following when the button is pressed
+    if(this.state.selectedIndex < this.goals.length) {
+      this.setCurrentGoal(this.goals[this.state.selectedIndex + 1]);
+      this.setState({
+        selectedIndex: this.state.selectedIndex + 1,
+      });
     }
   }
 
   clueModal() {
-    switch(this.state.currentGoal.name) {
-      case "fiveguys":
-        return <BurgerModal onGoalCompleted={() => this.onGoalCompleted()}
-                goal={this.state.currentGoal} 
-                headerText={"There's some right here!"}
-                bodyText={"This video may provide a clue as to Papa's whereabouts:"}/>
+    const goal = this.goals[this.state.selectedIndex];
+    if(goal != null) {
+      switch(goal.name) {
+        case "fiveguys":
+          return <BurgerModal onGoalCompleted={() => this.onGoalCompleted()} goal={goal}/>
 
-      case "bjj":
-        return <BJJModal onGoalCompleted={() => this.onGoalCompleted()}
-                goal={this.state.currentGoal} 
-                headerText={"Time to head East?"}
-                bodyText={"I saw Papa doing some strange things so I recorded it. Maybe the video will help us find him:"}/>
+        case "bjj":
+          return <BJJModal onGoalCompleted={() => this.onGoalCompleted()} goal={goal}/>
 
-      default:
-        return <CodeModal  onGoalCompleted={() => this.onGoalCompleted()} 
-                iconName={'food'} goal={this.state.currentGoal} 
-                headerText={'Peach and I are hungry!'} bodyText={"Enter the code when you're done feeding us:"}/>
+        default:
+          return <CodeModal onGoalCompleted={() => this.onGoalCompleted()} iconName={'food'} goal={goal}/>
+      }
     }
+    return null;
   }
 
   goToGoal(index) {
-    this.selectorIndex = index;
+    const icons = this.state.selectorItems.slice();
+    icons[index] = this.goalIconName(this.goals[index])
     this.setState({
-      currentGoal: this.goals[index],
-      blurAnim: this.goals[index].status === "done" ? 0 : 8,
+      blurAnim: this.goals[index].status === "done" ? new Animated.Value(0) : new Animated.Value(8),
       selectedIndex: index,
+      selectorItems: icons,
     })
   }
 
@@ -131,15 +152,15 @@ export default class ScavengerMain extends Component {
     return (
       <View style={styles.container}>
         <Animated.Image
-          source={require('../images/ring.jpg')}
+          source={this.images[this.state.selectedIndex]}
           style={styles.ringImage}
           resizeMode="cover"
-          blurRadius={8}
+          blurRadius={this.state.blurAnim}
         />
         <HeaderBar headerText={'Where is papa?'} leftIconName={'comment-o'} 
           leftIconPress={() => this.props.navigation.openDrawer()}
           rightIconName={'question-circle-o'} 
-          rightIconPress={() => this.goToGoal(this.selectedIndex + 1) }
+          rightIconPress={() => this.goToGoal(this.state.selectedIndex + 1) }
         />
         {this.clueModal()}
         <View/>

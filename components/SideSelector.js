@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { StyleSheet, View, TouchableHighlight } from 'react-native';
 import NavigationService from '../NavigationService.js';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 export default class SideSelector extends Component {

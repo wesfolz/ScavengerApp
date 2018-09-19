@@ -39,8 +39,7 @@ export default class TravelClueScreen extends Component {
         toValue: 0,                   // Animate to opacity: 1 (opaque)
         duration: 5000,              // Make it take a while
         useNativeDriver: true, 
-      }
-    ).start();                        // Starts the animation
+      }).start();                        // Starts the animation
     }
 
     this.setState({
