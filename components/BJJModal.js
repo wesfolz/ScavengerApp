@@ -1,36 +1,40 @@
 import React, {Component} from 'react';
-import {StyleSheet, Modal, Text, View, Linking} from 'react-native';
+import {StyleSheet, Modal, Text, View, Linking, TouchableHighlight} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ClueButton from './ClueButton.js';
 import HeaderBar from './HeaderBar.js';
 
 export default class BJJModal extends Component {
-  state = {
-    modalVisible: false,
-  };
 
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
-  }
+  static defaultProps = {
+    goal: {
+      bodyText: '',
+      headerText: '',
+      iconName: 'lock-question',
+      modalVisible: false,
+    }
+  };
 
   render() {
     return (
       <View>
         <Modal
-          animationType="fade"
+          animationType="fade" 
           transparent={true}
-          visible={this.state.modalVisible}
+          visible={this.props.modalVisible}
           onRequestClose={() => {
-            this.setModalVisible(false)}}
+            this.props.setModalVisible(false)}}
         >
           <View style={styles.overlay}>
             <View style={styles.card}>
               <View style={[styles.stripe, styles.headerContainer]}>
                 <Icon name={'octagon'} size={30} color={'#BDBDBD'} style={styles.headerIcon}/>
                 <Text style={styles.headerText}>{this.props.goal.headerText}</Text>
-                <Icon name={'close-circle'} size={30} color={'#BDBDBD'} 
-                  style={styles.headerIcon} onPress={() => {this.setModalVisible(!this.state.modalVisible)}}
-              />
+                <TouchableHighlight underlayColor={'grey'} onPress={() => this.props.setModalVisible(false)}>
+                  <Icon name={'close-circle'} size={30} color={'#BDBDBD'} 
+                    style={styles.headerIcon}
+                  />
+                </TouchableHighlight>
               </View>
               <View style={[styles.stripe, {backgroundColor: '#A0522D'}]}/>
               <View style={[styles.stripe, {backgroundColor: '#9B51E0'}]}>
@@ -45,7 +49,7 @@ export default class BJJModal extends Component {
             </View>
           </View>
         </Modal>
-        <ClueButton status={this.props.goal.status} onPress={() => this.setState({modalVisible: true})}/>
+        <ClueButton status={this.props.goal.status} onPress={() => this.props.setModalVisible(true)}/>
       </View>
     );
   }

@@ -5,7 +5,7 @@ import ClueButton from './ClueButton.js';
 import HeaderBar from './HeaderBar.js';
 import FirebaseMain from '../database/FirebaseMain.js';
 
-export default class CodeModal extends Component {
+export default class TheaterModal extends Component {
 
   static defaultProps = {
     goal: {

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class HeaderBar extends Component {
   static defaultProps = {
@@ -9,8 +9,8 @@ export default class HeaderBar extends Component {
     iconColor: '#F2994A'
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   render() {
@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 20,
-    fontFamily: "Roboto",
+    fontFamily: 'Roboto',
+    fontWeight: 'bold',
     margin: 12,
   }
 });

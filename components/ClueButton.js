@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class ClueButton extends Component {
 
@@ -14,7 +13,7 @@ export default class ClueButton extends Component {
         return 'lock';
 
       case 'unlocked':
-        return 'question';
+        return 'help';
 
       case 'done':
         return 'check';
@@ -41,11 +40,10 @@ export default class ClueButton extends Component {
   }
 
   render() {
-    return (
-      <Icon name={this.getIconName()} size={250} color={this.getColor()}
-        onPress={this.props.onPress}
-      //onPress={() => { this.setState({iconName: 'check-circle', iconColor: '#228B22'})}}
-      />
-    );
+    let icon = null;
+    if(this.props.status != 'done') {
+      icon = <Icon onPress={this.props.onPress} name={this.getIconName()} size={250} color={this.getColor()}/>;
+    }
+    return icon;
   }
 }

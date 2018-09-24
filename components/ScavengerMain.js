@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Button, Animated, Image} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {StyleSheet, Text, View, Button, Animated, Image, Easing} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Geolocation from '../geolocation/Geolocation.js';
 import FirebaseMain from '../database/FirebaseMain.js';
@@ -11,7 +11,9 @@ import HeaderBar from './HeaderBar.js';
 import BurgerModal from './BurgerModal.js';
 import BJJModal from './BJJModal.js';
 import CodeModal from './CodeModal.js';
+import TheaterModal from './TheaterModal.js';
 
+ 
 export default class ScavengerMain extends Component {
 
   constructor(props) {
@@ -31,19 +33,12 @@ export default class ScavengerMain extends Component {
       require("../images/ring.jpg"), 
     ];
     this.state = {
-      blurAnim: new Animated.Value(8),
+      blurAnim: new Animated.Value(1),
       selectedIndex: 0,
-      selectorItems: [
-        'home',
-        'car',
-        'lock-question',
-        'lock',
-        'lock',
-        'lock',
-        'lock',
-        'lock',
-        'lock',
-      ],
+      selectorItems: [],
+      viewRef: null,
+      nextVisible: false,
+      modalVisible: false,
     }
     FirebaseMain.getGoalsRef().once('value').then((goals) => this.setGoals(goals.val()));
     FirebaseMain.getCurrentGoalRef().once('value').then((goal) => this.setCurrentGoal(goal.val()));
@@ -62,9 +57,11 @@ export default class ScavengerMain extends Component {
     this.setState({
       selectorItems: this.goals.map((goal) => {
         return this.goalIconName(goal);
-      })
-    });
+      }),
+      blurAnim: this.goals[this.state.selectedIndex].status === "done" ? new Animated.Value(0) : new Animated.Value(1),
+      nextVisible: this.goals[this.state.selectedIndex].status === 'done',
 
+    });
   }
 
   compareGoals(a, b) {
@@ -82,7 +79,7 @@ export default class ScavengerMain extends Component {
       return goal.iconName;
     }
     else if(goal.status === "unlocked") {
-      return "lock-question";
+      return "help-circle";
     }
     return "lock";
   }
@@ -95,6 +92,7 @@ export default class ScavengerMain extends Component {
 
     FirebaseMain.setCurrentGoal(currentGoal);
 
+    //this.geolocator.clearWatch();
     if(currentGoal.type === "location") {
       this.geolocator.setGoal(currentGoal, this.onGoalCompleted);
       //this.geolocator.watchLocation();
@@ -103,37 +101,68 @@ export default class ScavengerMain extends Component {
 
   onGoalCompleted() {
     FirebaseMain.setGoalStatus(this.goals[this.state.selectedIndex].name, 'done');
- 
+    this.goals[this.state.selectedIndex].status = 'done';
+    FirebaseMain.setGoalStatus(this.goals[this.state.selectedIndex + 1].name, 'unlocked');
+    this.goals[this.state.selectedIndex + 1].status = 'unlocked';
+
+    //TODO: Unhide the 'Next' button and do the following when the button is pressed
+    if(this.state.selectedIndex < this.goals.length) {
+      const icons = this.state.selectorItems.slice();
+      icons[this.state.selectedIndex] = this.goalIconName(this.goals[this.state.selectedIndex])
+      this.setCurrentGoal(this.goals[this.state.selectedIndex + 1]);
+      this.setState({
+        nextVisible: true,
+        selectorItems: icons,
+      });
+    }
+    this.setModalVisible(false);
     Animated.timing(                  // Animate over time
     this.state.blurAnim,            // The animated value to drive
     {
       toValue: 0,                   // Animate to opacity: 1 (opaque)
+      easing: Easing.inOut(Easing.ease),
       duration: 5000,              // Make it take a while
       useNativeDriver: true, 
     }).start();                        // Starts the animation
 
-    //TODO: Unhide the 'Next' button and do the following when the button is pressed
-    if(this.state.selectedIndex < this.goals.length) {
-      this.setCurrentGoal(this.goals[this.state.selectedIndex + 1]);
-      this.setState({
-        selectedIndex: this.state.selectedIndex + 1,
-      });
-    }
   }
 
   clueModal() {
     const goal = this.goals[this.state.selectedIndex];
     if(goal != null) {
       switch(goal.name) {
-        case "fiveguys":
-          return <BurgerModal onGoalCompleted={() => this.onGoalCompleted()} goal={goal}/>
+        case 'fiveguys':
+          return <BurgerModal  modalVisible={this.state.modalVisible} 
+                  setModalVisible={(visible) => this.setModalVisible(visible)} 
+                  onGoalCompleted={() => this.onGoalCompleted()} goal={goal}/>
 
-        case "bjj":
-          return <BJJModal onGoalCompleted={() => this.onGoalCompleted()} goal={goal}/>
+        case 'bjj':
+          return <BJJModal modalVisible={this.state.modalVisible} 
+                  setModalVisible={(visible) => this.setModalVisible(visible)} 
+                  onGoalCompleted={() => this.onGoalCompleted()} goal={goal}/>
+
+        case 'theater':
+          return <TheaterModal modalVisible={this.state.modalVisible} 
+                  setModalVisible={(visible) => this.setModalVisible(visible)} 
+                  onGoalCompleted={() => this.onGoalCompleted()} goal={goal}/>
 
         default:
-          return <CodeModal onGoalCompleted={() => this.onGoalCompleted()} iconName={'food'} goal={goal}/>
+          return <CodeModal modalVisible={this.state.modalVisible} 
+                  setModalVisible={(visible) => this.setModalVisible(visible)} 
+                  onGoalCompleted={() => this.onGoalCompleted} goal={goal}/>
       }
+    }
+    return null;
+  }
+
+  nextButton() {
+    if(this.state.nextVisible) {
+      return (
+        <Icon.Button name={'arrow-right-thick'} color={'#F2994A'}
+          backgroundColor={'#4F4F4F'} onPress={() => this.goToGoal(this.state.selectedIndex + 1)}>
+          <Text style={styles.nextButton}>Next Clue</Text>
+        </Icon.Button>
+      );
     }
     return null;
   }
@@ -142,28 +171,42 @@ export default class ScavengerMain extends Component {
     const icons = this.state.selectorItems.slice();
     icons[index] = this.goalIconName(this.goals[index])
     this.setState({
-      blurAnim: this.goals[index].status === "done" ? new Animated.Value(0) : new Animated.Value(8),
+      blurAnim: this.goals[index].status === 'done' ? new Animated.Value(0) : new Animated.Value(1),
+      nextVisible: this.goals[index].status === 'done',
       selectedIndex: index,
       selectorItems: icons,
     })
   }
 
+  setModalVisible(visible) {
+    if(this.goals[this.state.selectedIndex].status != 'locked') {
+      this.setState({modalVisible: visible});
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Animated.Image
+        <Image
           source={this.images[this.state.selectedIndex]}
           style={styles.ringImage}
-          resizeMode="cover"
-          blurRadius={this.state.blurAnim}
+          resizeMode="contain"
         />
-        <HeaderBar headerText={'Where is papa?'} leftIconName={'comment-o'} 
+        <Animated.Image
+          source={this.images[this.state.selectedIndex]}
+          style={[styles.ringImage, {opacity: this.state.blurAnim}]}
+          resizeMode="cover"
+          blurRadius={2}
+        />
+        <HeaderBar headerText={'Where is papa?'} leftIconName={'comment-text-outline'} 
           leftIconPress={() => this.props.navigation.openDrawer()}
-          rightIconName={'question-circle-o'} 
-          rightIconPress={() => this.goToGoal(this.state.selectedIndex + 1) }
+          rightIconName={'help-circle-outline'} 
+          rightIconPress={() => this.setModalVisible(true)}
         />
         {this.clueModal()}
-        <View/>
+        <View style={styles.nextView}>
+          {this.nextButton()}
+        </View>
         <View style={styles.sidebarContainer}>
           <SideSelector selectorPress={(index) => this.goToGoal(index)} 
             selectedIndex={this.state.selectedIndex} selectorItems={this.state.selectorItems}/>
@@ -197,5 +240,16 @@ const styles = StyleSheet.create({
     left: 0,
     alignItems: 'flex-end',
     width: '100%',
+  },
+  nextView: {
+    alignItems: 'flex-end',
+    width: '100%',
+    marginRight: 20,
+    marginBottom: 20,
+  },
+  nextButton: {
+    color: '#F2994A', 
+    fontFamily: 'Roboto',
+    fontWeight: 'bold',
   },
 });

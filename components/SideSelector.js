@@ -10,7 +10,7 @@ export default class SideSelector extends Component {
     selectedSize: 50,
     normalSize: 25,
     normalColor: '#000000',
-    selectedColor: '#6FCF97',
+    selectedColor: '#F2994A',
     selectorPress: console.log,
     selectedIndex: 0,
     selectorItems: [],

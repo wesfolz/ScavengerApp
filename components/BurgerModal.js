@@ -5,16 +5,18 @@ import ClueButton from './ClueButton.js';
 import HeaderBar from './HeaderBar.js';
 
 export default class BurgerModal extends Component {
+  
+  static defaultProps = {
+    goal: {
+      bodyText: '',
+      headerText: '',
+      iconName: 'lock-question',
+      modalVisible: false,
+    }
+  };
 
   constructor(props) {
     super(props);
-    this.state = {
-      modalVisible: false,
-    };
-  }
-
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
   }
 
   render() {
@@ -23,17 +25,17 @@ export default class BurgerModal extends Component {
         <Modal
           animationType="fade"
           transparent={true}
-          visible={this.state.modalVisible}
+          visible={this.props.modalVisible}
           onRequestClose={() => {
-            this.setModalVisible(false);
+            this.props.setModalVisible(false);
         }}>
           <View style={styles.overlay}>
             <View style={styles.card}>
               <View style={styles.headerContainer}>
-                <Icon name={'lock-question'} size={30} color={'#ffdb58'} underlayColor='#000000' style={styles.headerIcon}/>
+                <Icon name={'lock-question'} size={30} color={'#ffdb58'} style={styles.headerIcon}/>
                 <Text style={styles.headerText}>{this.props.goal.headerText}</Text>
                 <Icon name={'close-circle'} size={30} color={'#ffdb58'} 
-                  underlayColor='#000000' style={styles.headerIcon} onPress={() => { this.setModalVisible(!this.state.modalVisible);
+                  style={styles.headerIcon} onPress={() => { this.props.setModalVisible(false)
                 }}/>
               </View>
               <View style={styles.cardContent}>
@@ -48,7 +50,7 @@ export default class BurgerModal extends Component {
             </View>
           </View>
         </Modal>
-        <ClueButton status={this.props.goal.status} onPress={() => this.setState({modalVisible: true})}/>
+        <ClueButton status={this.props.goal.status} onPress={() => this.props.setModalVisible(true)}/>
       </View>
     );
   }

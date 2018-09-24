@@ -26,7 +26,7 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
         <DrawerComponent 
-          ref={navigatorRef => {NavigationService.setTopLevelNavigator(navigatorRef);}}
+          ref={navigatorRef => {NavigationService.setTopLevelNavigator(navigatorRef)}}
         />
       </View>
     );
