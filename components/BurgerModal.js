@@ -32,7 +32,7 @@ export default class BurgerModal extends Component {
           <View style={styles.overlay}>
             <View style={styles.card}>
               <View style={styles.headerContainer}>
-                <Icon name={'lock-question'} size={30} color={'#ffdb58'} style={styles.headerIcon}/>
+                <Icon name={this.props.goal.iconName} size={30} color={'#ffdb58'} style={styles.headerIcon}/>
                 <Text style={styles.headerText}>{this.props.goal.headerText}</Text>
                 <Icon name={'close-circle'} size={30} color={'#ffdb58'} 
                   style={styles.headerIcon} onPress={() => { this.props.setModalVisible(false)
@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#ffdb58',
     justifyContent: 'flex-start',
-    width: '90%', 
-    height: '50%'
+    width: '90%',
+    height: 250,//'50%'
   },
   cardContent: {
     flex: 1,
