@@ -1,14 +1,10 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default class ClueButton extends Component {
+const ClueButton = (props) => {
 
-  constructor(props) {
-    super(props);
-  }
-
-  getIconName() {
-    switch(this.props.status) {
+  getIconName = () => {
+    switch(props.status) {
       case 'locked':
         return 'lock';
 
@@ -23,8 +19,8 @@ export default class ClueButton extends Component {
     }
   }
 
-  getColor() {
-    switch(this.props.status) {
+  getColor = () => {
+    switch(props.status) {
       case 'locked':
         return '#333333';
 
@@ -39,11 +35,12 @@ export default class ClueButton extends Component {
     }
   }
 
-  render() {
-    let icon = null;
-    if(this.props.status != 'done') {
-      icon = <Icon onPress={this.props.onPress} name={this.getIconName()} size={250} color={this.getColor()}/>;
-    }
-    return icon;
+  let icon = null;
+  if(props.status != 'done') {
+    icon = <Icon onPress={props.onPress} name={getIconName()} size={250} color={getColor()}/>;
   }
+
+  return icon;
 }
+
+export default ClueButton;

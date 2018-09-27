@@ -2,45 +2,29 @@ import React, {Component} from 'react';
 import {StyleSheet, Modal, Text, View, Linking} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ClueButton from './ClueButton.js';
-import HeaderBar from './HeaderBar.js';
 
-export default class BurgerModal extends Component {
+const BurgerModal = ({goal, modalVisible, setModalVisible}) => {
   
-  static defaultProps = {
-    goal: {
-      bodyText: '',
-      headerText: '',
-      iconName: 'lock-question',
-      modalVisible: false,
-    }
-  };
-
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
     return (
       <View>
         <Modal
           animationType="fade"
           transparent={true}
-          visible={this.props.modalVisible}
+          visible={modalVisible}
           onRequestClose={() => {
-            this.props.setModalVisible(false);
+            setModalVisible(false);
         }}>
           <View style={styles.overlay}>
             <View style={styles.card}>
               <View style={styles.headerContainer}>
-                <Icon name={this.props.goal.iconName} size={30} color={'#ffdb58'} style={styles.headerIcon}/>
-                <Text style={styles.headerText}>{this.props.goal.headerText}</Text>
+                <Icon name={goal.iconName} size={30} color={'#ffdb58'} style={styles.headerIcon}/>
+                <Text style={styles.headerText}>{goal.headerText}</Text>
                 <Icon name={'close-circle'} size={30} color={'#ffdb58'} 
-                  style={styles.headerIcon} onPress={() => { this.props.setModalVisible(false)
-                }}/>
+                  style={styles.headerIcon} onPress={() => {setModalVisible(false)}}/>
               </View>
               <View style={styles.cardContent}>
                 <View style={styles.textBackground}>
-                  <Text style={styles.text}>{this.props.goal.bodyText}</Text>
+                  <Text style={styles.text}>{goal.bodyText}</Text>
                   <Icon name="youtube" size={50} color="#ce2522" onPress={ () => {
                     Linking.openURL('https://www.youtube.com/watch?v=oxv6-npAxpY')}}
                   />
@@ -50,10 +34,9 @@ export default class BurgerModal extends Component {
             </View>
           </View>
         </Modal>
-        <ClueButton status={this.props.goal.status} onPress={() => this.props.setModalVisible(true)}/>
+        <ClueButton status={goal.status} onPress={() => setModalVisible(true)}/>
       </View>
     );
-  }
 }
 
 const styles = StyleSheet.create({
@@ -116,3 +99,5 @@ const styles = StyleSheet.create({
     width: '80%',
   }
 });
+
+export default BurgerModal;

@@ -23,6 +23,7 @@ export default class ScavengerMain extends Component {
     this.geolocator = new Geolocation('Alexa');
     this.goals = [];
     this.images = [
+      require("../images/ring.jpg"), 
       require("../images/ring_0.png"),
       require("../images/ring_1.png"),
       require("../images/ring_2.png"),
@@ -30,7 +31,6 @@ export default class ScavengerMain extends Component {
       require("../images/ring_4.png"),
       require("../images/ring_5.png"),
       require("../images/ring_6.png"),
-      require("../images/ring.jpg"), 
     ];
     this.state = {
       blurAnim: new Animated.Value(1),
@@ -149,7 +149,7 @@ export default class ScavengerMain extends Component {
         default:
           return <CodeModal modalVisible={this.state.modalVisible} 
                   setModalVisible={(visible) => this.setModalVisible(visible)} 
-                  onGoalCompleted={() => this.onGoalCompleted} goal={goal}/>
+                  onGoalCompleted={() => this.onGoalCompleted()} goal={goal}/>
       }
     }
     return null;
@@ -168,6 +168,9 @@ export default class ScavengerMain extends Component {
   }
 
   goToGoal(index) {
+    if(index >= this.goals.length) {
+      index = 0;
+    }
     const icons = this.state.selectorItems.slice();
     icons[index] = this.goalIconName(this.goals[index])
     this.setState({
@@ -187,16 +190,16 @@ export default class ScavengerMain extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image
+        {this.state.nextVisible ? <Image
           source={this.images[this.state.selectedIndex]}
           style={styles.ringImage}
           resizeMode="contain"
-        />
+        /> : null}
         <Animated.Image
           source={this.images[this.state.selectedIndex]}
           style={[styles.ringImage, {opacity: this.state.blurAnim}]}
           resizeMode="cover"
-          blurRadius={2}
+          blurRadius={this.state.selectedIndex === 0 ? 8 : 2}
         />
         <HeaderBar headerText={'Where is papa?'} leftIconName={'comment-text-outline'} 
           leftIconPress={() => this.props.navigation.openDrawer()}

@@ -2,35 +2,26 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default class HeaderBar extends Component {
-  static defaultProps = {
-    backgroundColor: '#4F4F4F',
-    textColor: '#F2994A',
-    iconColor: '#F2994A'
-  };
+const HeaderBar = ({headerText, leftIconPress, leftIconName, rightIconPress, rightIconName}) => {
 
-  constructor(props) {
-    super(props);
-  }
+  const backgroundColor = '#4F4F4F';
+  const textColor = '#F2994A';
+  return (
+    <View style={[styles.container, {backgroundColor: backgroundColor}]}>
+      <TouchableHighlight underlayColor={'grey'} onPress={leftIconPress}>
+        <Icon name={leftIconName} size={30} color={textColor} 
+          style={[styles.messagesButton, {backgroundColor: backgroundColor}]} 
+        />
+      </TouchableHighlight>
 
-  render() {
-    return (
-      <View style={[styles.container, {backgroundColor: this.props.backgroundColor}]}>
-        <TouchableHighlight underlayColor={'grey'} onPress={this.props.leftIconPress}>
-          <Icon name={this.props.leftIconName} size={30} color={this.props.iconColor} 
-            style={[styles.messagesButton, {backgroundColor: this.props.backgroundColor}]} 
-          />
-        </TouchableHighlight>
-
-        <Text style={[styles.headerText, {color: this.props.textColor}]}>{this.props.headerText}</Text>
-        <TouchableHighlight underlayColor={'grey'} onPress={this.props.rightIconPress}>
-          <Icon name={this.props.rightIconName} size={30} color={this.props.iconColor} 
-            style={[styles.messagesButton, {backgroundColor: this.props.backgroundColor}]} 
-          />
-        </TouchableHighlight>
-      </View>
-    );
-  }
+      <Text style={[styles.headerText, {color: textColor}]}>{headerText}</Text>
+      <TouchableHighlight underlayColor={'grey'} onPress={rightIconPress}>
+        <Icon name={rightIconName} size={30} color={textColor} 
+          style={[styles.messagesButton, {backgroundColor: backgroundColor}]} 
+        />
+      </TouchableHighlight>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -51,3 +42,5 @@ const styles = StyleSheet.create({
     margin: 12,
   }
 });
+
+export default HeaderBar;

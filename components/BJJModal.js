@@ -2,35 +2,24 @@ import React, {Component} from 'react';
 import {StyleSheet, Modal, Text, View, Linking, TouchableHighlight} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ClueButton from './ClueButton.js';
-import HeaderBar from './HeaderBar.js';
 
-export default class BJJModal extends Component {
+const BJJModal = ({goal, modalVisible, setModalVisible}) => {
 
-  static defaultProps = {
-    goal: {
-      bodyText: '',
-      headerText: '',
-      iconName: 'lock-question',
-      modalVisible: false,
-    }
-  };
-
-  render() {
     return (
       <View>
         <Modal
           animationType="fade" 
           transparent={true}
-          visible={this.props.modalVisible}
+          visible={modalVisible}
           onRequestClose={() => {
-            this.props.setModalVisible(false)}}
+            setModalVisible(false)}}
         >
           <View style={styles.overlay}>
             <View style={styles.card}>
               <View style={[styles.stripe, styles.headerContainer]}>
                 <Icon name={'octagon'} size={30} color={'#BDBDBD'} style={styles.headerIcon}/>
-                <Text style={styles.headerText}>{this.props.goal.headerText}</Text>
-                <TouchableHighlight underlayColor={'grey'} onPress={() => this.props.setModalVisible(false)}>
+                <Text style={styles.headerText}>{goal.headerText}</Text>
+                <TouchableHighlight underlayColor={'grey'} onPress={() => setModalVisible(false)}>
                   <Icon name={'close-circle'} size={30} color={'#BDBDBD'} 
                     style={styles.headerIcon}
                   />
@@ -38,7 +27,7 @@ export default class BJJModal extends Component {
               </View>
               <View style={[styles.stripe, {backgroundColor: '#A0522D'}]}/>
               <View style={[styles.stripe, {backgroundColor: '#9B51E0'}]}>
-                <Text style={styles.text}>{this.props.goal.bodyText}</Text>
+                <Text style={styles.text}>{goal.bodyText}</Text>
               </View>
               <View style={[styles.stripe, {backgroundColor: '#2F80ED'}]}>
                 <Icon name="youtube" size={50} color="#ce2522" onPress={ () => {
@@ -49,10 +38,9 @@ export default class BJJModal extends Component {
             </View>
           </View>
         </Modal>
-        <ClueButton status={this.props.goal.status} onPress={() => this.props.setModalVisible(true)}/>
+        <ClueButton status={goal.status} onPress={() => setModalVisible(true)}/>
       </View>
     );
-  }
 }
 
 const styles = StyleSheet.create({
@@ -105,3 +93,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   }
 });
+
+export default BJJModal;

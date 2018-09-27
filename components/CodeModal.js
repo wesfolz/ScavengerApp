@@ -3,7 +3,6 @@ import {StyleSheet, Modal, Text, View, TextInput, Button} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ClueButton from './ClueButton.js';
 import HeaderBar from './HeaderBar.js';
-import FirebaseMain from '../database/FirebaseMain.js';
 
 export default class CodeModal extends Component {
 
