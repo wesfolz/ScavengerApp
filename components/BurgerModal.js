@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, Modal, Text, View, Linking} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ClueButton from './ClueButton.js';
+import SpeechBubble from './SpeechBubble.js';
 
 const BurgerModal = ({goal, modalVisible, setModalVisible}) => {
   
@@ -22,14 +23,14 @@ const BurgerModal = ({goal, modalVisible, setModalVisible}) => {
                 <Icon name={'close-circle'} size={30} color={'#ffdb58'} 
                   style={styles.headerIcon} onPress={() => {setModalVisible(false)}}/>
               </View>
+
               <View style={styles.cardContent}>
+                <SpeechBubble text={goal.bodyText}/>
                 <View style={styles.textBackground}>
-                  <Text style={styles.text}>{goal.bodyText}</Text>
                   <Icon name="youtube" size={50} color="#ce2522" onPress={ () => {
                     Linking.openURL('https://www.youtube.com/watch?v=oxv6-npAxpY')}}
                   />
                 </View>
-                {/*<Text>Play Video</Text>*/}
               </View>
             </View>
           </View>
@@ -84,8 +85,10 @@ const styles = StyleSheet.create({
   textBackground: {
     backgroundColor: '#00000015', 
     borderRadius: 8, 
-    width: '80%', 
-    height: '80%', 
+    //width: '100%', 
+    //height: '80%', 
+    flexDirection: 'row',
+    margin: 5,
     justifyContent: 'center', 
     alignItems: 'center'
   },

@@ -3,6 +3,7 @@ import {StyleSheet, Modal, Text, View, TextInput, Button} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ClueButton from './ClueButton.js';
 import HeaderBar from './HeaderBar.js';
+import SpeechBubble from './SpeechBubble.js';
 
 export default class CodeModal extends Component {
 
@@ -46,20 +47,21 @@ export default class CodeModal extends Component {
         }}>
           <View style={styles.overlay}>
             <View style={styles.card}>
-              <View style={styles.headerContainer}>
+              {/*<View style={styles.headerContainer}>
                 <Icon name={this.props.goal.iconName} size={30} color={'#E0E0E0'} style={styles.headerIcon}/>
                 <Text style={styles.headerText}>{this.props.goal.headerText}</Text>
                 <Icon name={'close-circle'} size={30} color={'#E0E0E0'} 
                   style={styles.headerIcon} onPress={() => { this.props.setModalVisible(false);
                 }}/>
-              </View>
-              <View style={styles.cardContent}>
-                <View style={styles.textBackground}>
-                  <Text style={styles.text}>{this.props.goal.bodyText}</Text>
-                  <TextInput onChangeText={(text) => this.setState({codeText: text})} value={this.state.codeText}
-                    style={{backgroundColor: '#F2F2F2', width: '50%', margin: 10, height: 40}}/>
-                  <Button title={'Submit'} onPress={() => this.checkCode()}/>
-                </View>
+              </View>*/}
+              <HeaderBar style={styles.headerContainer} headerText={this.props.goal.headerText} leftIconName={this.props.goal.iconName}
+               rightIconPress={() => this.props.setModalVisible(false)} rightIconName={'close-circle'}/>
+                <SpeechBubble text={this.props.goal.bodyText}/>
+              <View style={styles.textBackground}>
+                <Text style={styles.text}>Code:</Text>
+                <TextInput onChangeText={(text) => this.setState({codeText: text})} value={this.state.codeText}
+                  style={{backgroundColor: '#F2F2F2', width: '50%', margin: 10, height: 40}}/>
+                <Button color={'#4F4F4F'} title={'Submit'} onPress={() => this.checkCode()}/>
               </View>
             </View>
           </View>
@@ -81,8 +83,8 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 8,
     flexDirection: 'column',
-    backgroundColor: '#E0E0E0',
-    justifyContent: 'flex-start',
+    backgroundColor: '#2D9CDB',
+    justifyContent: 'space-between',
     width: '90%', 
     height: 250,//'50%'
   },
@@ -95,37 +97,37 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     borderRadius: 8,
+    /*
     flexDirection: 'row',
-    backgroundColor: '#2D9CDB',
+    backgroundColor: '#4F4F4F',
     justifyContent: 'space-between',
     alignItems: 'center',
     height: 54,
+    */
   },
   headerIcon:
   {
-    backgroundColor: '#2D9CDB',
+    backgroundColor: '#4F4F4F',
     margin: 12,
   },
   headerText: {
     color: 'white',
     fontSize: 16,
-    fontFamily: "Roboto",
     margin: 12,
   },
   textBackground: {
     backgroundColor: '#00000015', 
     borderRadius: 8, 
-    width: '80%', 
-    height: '80%', 
+    //width: '80%', 
+    //height: '80%', 
+    flexDirection: 'row',
+    margin: 5,
     justifyContent: 'center', 
     alignItems: 'center'
   },
   text: {
-    fontFamily: 'Roboto',
-    color: 'black', 
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    width: '50%',
+    color: 'white', 
+    fontSize: 16,
+    fontWeight: 'bold',
   }
 });

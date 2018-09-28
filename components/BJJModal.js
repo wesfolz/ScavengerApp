@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, Modal, Text, View, Linking, TouchableHighlight} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ClueButton from './ClueButton.js';
+import SpeechBubble from './SpeechBubble.js';
 
 const BJJModal = ({goal, modalVisible, setModalVisible}) => {
 
@@ -27,14 +28,18 @@ const BJJModal = ({goal, modalVisible, setModalVisible}) => {
               </View>
               <View style={[styles.stripe, {backgroundColor: '#A0522D'}]}/>
               <View style={[styles.stripe, {backgroundColor: '#9B51E0'}]}>
-                <Text style={styles.text}>{goal.bodyText}</Text>
+                {/*<Text style={styles.text}>{goal.bodyText}</Text>*/}
               </View>
               <View style={[styles.stripe, {backgroundColor: '#2F80ED'}]}>
-                <Icon name="youtube" size={50} color="#ce2522" onPress={ () => {
-                    Linking.openURL('https://www.youtube.com/watch?v=oxv6-npAxpY')}}
-                />
               </View>
-              <View style={[styles.stripe, {backgroundColor: '#ffffff'}]}/>
+              <View style={[styles.stripe, {backgroundColor: '#ffffff'}]}>
+                <Icon name="youtube" size={50} color="#ce2522" onPress={ () =>
+                  Linking.openURL('https://www.youtube.com/watch?v=oxv6-npAxpY')}
+                />
+                </View>
+              <View style={{position: 'absolute', top:54, right: 0}}>
+                <SpeechBubble text={goal.bodyText}/>
+              </View>
             </View>
           </View>
         </Modal>

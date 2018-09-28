@@ -31,13 +31,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 54,
     width: '100%',
+    borderRadius: 8,
   },
   messagesButton: {
     margin: 12,
   },
   headerText: {
     fontSize: 20,
-    fontFamily: 'Roboto',
     fontWeight: 'bold',
     margin: 12,
   }
