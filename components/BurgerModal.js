@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {StyleSheet, Modal, Text, View, Linking} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import ClueButton from './ClueButton.js';
-import SpeechBubble from './SpeechBubble.js';
+import ClueButton from './ClueButton';
+import SpeechBubble from './SpeechBubble';
 
 const BurgerModal = ({goal, modalVisible, setModalVisible}) => {
   
@@ -12,23 +12,22 @@ const BurgerModal = ({goal, modalVisible, setModalVisible}) => {
           animationType="fade"
           transparent={true}
           visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(false);
-        }}>
+          onRequestClose={() => setModalVisible(false)}
+        >
           <View style={styles.overlay}>
             <View style={styles.card}>
               <View style={styles.headerContainer}>
                 <Icon name={goal.iconName} size={30} color={'#ffdb58'} style={styles.headerIcon}/>
                 <Text style={styles.headerText}>{goal.headerText}</Text>
                 <Icon name={'close-circle'} size={30} color={'#ffdb58'} 
-                  style={styles.headerIcon} onPress={() => {setModalVisible(false)}}/>
+                  style={styles.headerIcon} onPress={() => setModalVisible(false)}/>
               </View>
 
               <View style={styles.cardContent}>
                 <SpeechBubble text={goal.bodyText}/>
                 <View style={styles.textBackground}>
-                  <Icon name="youtube" size={50} color="#ce2522" onPress={ () => {
-                    Linking.openURL('https://www.youtube.com/watch?v=oxv6-npAxpY')}}
+                  <Icon name="youtube" size={50} color="#ce2522" onPress={() =>
+                    Linking.openURL('https://www.youtube.com/watch?v=oxv6-npAxpY')}
                   />
                 </View>
               </View>

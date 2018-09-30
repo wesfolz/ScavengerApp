@@ -2,18 +2,15 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, Button, Animated, Image, Easing} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Geolocation from '../geolocation/Geolocation.js';
-import FirebaseMain from '../database/FirebaseMain.js';
-import Chat from './Chat.js';
-import SideSelector from './SideSelector.js';
-import ClueButton from './ClueButton';
-import HeaderBar from './HeaderBar.js';
-import BurgerModal from './BurgerModal.js';
-import BJJModal from './BJJModal.js';
-import CodeModal from './CodeModal.js';
-import TheaterModal from './TheaterModal.js';
+import Geolocation from '../geolocation/Geolocation';
+import FirebaseMain from '../database/FirebaseMain';
+import SideSelector from './SideSelector';
+import HeaderBar from './HeaderBar';
+import BurgerModal from './BurgerModal';
+import BJJModal from './BJJModal';
+import CodeModal from './CodeModal';
+import TheaterModal from './TheaterModal';
 
- 
 export default class ScavengerMain extends Component {
 
   constructor(props) {
@@ -21,7 +18,6 @@ export default class ScavengerMain extends Component {
 
     FirebaseMain.init();
     this.geolocator = new Geolocation('Alexa');
-    this.goals = [];
     this.images = [
       require("../images/ring.jpg"), 
       require("../images/ring_0.png"),
@@ -32,6 +28,9 @@ export default class ScavengerMain extends Component {
       require("../images/ring_5.png"),
       require("../images/ring_6.png"),
     ];
+
+    this.goals = [];
+    this.currentGoal = null;
     this.state = {
       blurAnim: new Animated.Value(1),
       selectedIndex: 0,
@@ -39,13 +38,13 @@ export default class ScavengerMain extends Component {
       viewRef: null,
       nextVisible: false,
       modalVisible: false,
-    }
+    };
     FirebaseMain.getGoalsRef().once('value').then((goals) => this.setGoals(goals.val()));
-    FirebaseMain.getCurrentGoalRef().once('value').then((goal) => this.setCurrentGoal(goal.val()));
+    FirebaseMain.getCurrentGoalRef().once('value').then((goal) => this.setInitialGoal(goal.val()));
   }
 
   componentWillUnmount() {
-    //this.geolocator.clearWatch();
+    this.geolocator.clearWatch();
   }
 
   setGoals(goals) {
@@ -60,7 +59,6 @@ export default class ScavengerMain extends Component {
       }),
       blurAnim: this.goals[this.state.selectedIndex].status === "done" ? new Animated.Value(0) : new Animated.Value(1),
       nextVisible: this.goals[this.state.selectedIndex].status === 'done',
-
     });
   }
 
@@ -84,37 +82,50 @@ export default class ScavengerMain extends Component {
     return "lock";
   }
 
+  setInitialGoal(goal) {
+    this.setCurrentGoal(goal);
+    this.setState({
+      selectedIndex: this.currentGoal.index
+    });
+  }
+
   setCurrentGoal(goal) {
-    let currentGoal = goal;
+    this.currentGoal = goal;
     if(goal == null) {
-      currentGoal = this.goals[this.state.selectedIndex];
+      this.currentGoal = this.goals[this.state.selectedIndex];
     }
 
-    FirebaseMain.setCurrentGoal(currentGoal);
+    FirebaseMain.setCurrentGoal(this.currentGoal);
 
-    //this.geolocator.clearWatch();
-    if(currentGoal.type === "location") {
-      this.geolocator.setGoal(currentGoal, this.onGoalCompleted);
-      //this.geolocator.watchLocation();
+    this.geolocator.clearWatch();
+    if(this.currentGoal.type === "location") {
+      this.geolocator.setGoal(this.currentGoal, () => this.onGoalCompleted());
+      this.geolocator.watchLocation();
     }
   }
 
   onGoalCompleted() {
-    FirebaseMain.setGoalStatus(this.goals[this.state.selectedIndex].name, 'done');
-    this.goals[this.state.selectedIndex].status = 'done';
-    FirebaseMain.setGoalStatus(this.goals[this.state.selectedIndex + 1].name, 'unlocked');
-    this.goals[this.state.selectedIndex + 1].status = 'unlocked';
+    alert('Goal Completed ' + this.currentGoal.name);
+    FirebaseMain.setGoalStatus(this.currentGoal.name, 'done');
+    this.goals[this.currentGoal.index].status = 'done';
+ 
+    const prevIndex = this.currentGoal.index;
+    const newIndex = (prevIndex + 1) < this.goals.length ? prevIndex + 1 : 0;
 
-    //TODO: Unhide the 'Next' button and do the following when the button is pressed
-    if(this.state.selectedIndex < this.goals.length) {
-      const icons = this.state.selectorItems.slice();
-      icons[this.state.selectedIndex] = this.goalIconName(this.goals[this.state.selectedIndex])
-      this.setCurrentGoal(this.goals[this.state.selectedIndex + 1]);
+    const icons = this.state.selectorItems.slice();
+    icons[prevIndex] = this.goalIconName(this.currentGoal);
+
+    //if(this.state.selectedIndex < this.goals.length) {
+ 
+      FirebaseMain.setGoalStatus(this.goals[newIndex].name, 'unlocked');
+      this.goals[newIndex].status = 'unlocked';
+  
+      this.setCurrentGoal(this.goals[newIndex]);
       this.setState({
         nextVisible: true,
         selectorItems: icons,
       });
-    }
+    //}
     this.setModalVisible(false);
     Animated.timing(                  // Animate over time
     this.state.blurAnim,            // The animated value to drive
@@ -172,13 +183,13 @@ export default class ScavengerMain extends Component {
       index = 0;
     }
     const icons = this.state.selectorItems.slice();
-    icons[index] = this.goalIconName(this.goals[index])
+    icons[index] = this.goalIconName(this.goals[index]);
     this.setState({
       blurAnim: this.goals[index].status === 'done' ? new Animated.Value(0) : new Animated.Value(1),
       nextVisible: this.goals[index].status === 'done',
       selectedIndex: index,
       selectorItems: icons,
-    })
+    });
   }
 
   setModalVisible(visible) {

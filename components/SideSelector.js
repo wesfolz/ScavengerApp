@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
-import { StyleSheet, View, TouchableHighlight } from 'react-native';
-import NavigationService from '../NavigationService.js';
-
+import { StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
 
 export default class SideSelector extends Component {
   static defaultProps = {
@@ -21,13 +18,6 @@ export default class SideSelector extends Component {
     this.state = {
       selectedIndex: 0,
     }
-  }
-
-  selectItem(route, index) {
-    this.setState({
-      selectedIndex: index,
-    });
-    NavigationService.navigate(route);
   }
 
   displaySelectors() {

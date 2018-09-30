@@ -35,11 +35,15 @@ local.properties
 node_modules/
 npm-debug.log
 yarn-error.log
+.babelrc
+.watchmanconfig
+.flowconfig
 
 # BUCK
 buck-out/
 \.buckd/
 *.keystore
+.buckconfig
 
 # fastlane
 #

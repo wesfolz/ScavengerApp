@@ -2,14 +2,9 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 import { DrawerNavigator, SafeAreaView } from 'react-navigation';
 
-import Chat from './components/Chat.js';
-import ScavengerMain from './components/ScavengerMain.js';
-import DogClueScreen from './components/DogClueScreen.js';
-import TravelClueScreen from './components/TravelClueScreen.js';
-import FirebaseMain from './database/FirebaseMain.js';
-import HeaderBar from './components/HeaderBar.js';
-import SideSelector from './components/SideSelector.js';
-import NavigationService from './NavigationService.js';
+import Chat from './components/Chat';
+import ScavengerMain from './components/ScavengerMain';
+import NavigationService from './NavigationService';
 
 export default class App extends Component {
 
@@ -36,12 +31,6 @@ export default class App extends Component {
 const DrawerComponent = DrawerNavigator({
   Home: {
     screen: ScavengerMain,
-  },
-  First: {
-    screen: DogClueScreen,
-  },
-  Second: {
-    screen: TravelClueScreen,
   },
   Chat: {
     screen: Chat,

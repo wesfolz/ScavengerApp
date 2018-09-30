@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { GiftedChat } from 'react-native-gifted-chat'
-import FirebaseMain from '../database/FirebaseMain.js'
+import FirebaseMain from '../database/FirebaseMain'
 
 export default class Chat extends Component {
   

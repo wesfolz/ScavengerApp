@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import {StyleSheet, Modal, Text, View, TextInput, Button} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import ClueButton from './ClueButton.js';
-import HeaderBar from './HeaderBar.js';
-import FirebaseMain from '../database/FirebaseMain.js';
+import ClueButton from './ClueButton';
+import HeaderBar from './HeaderBar';
 
 export default class TheaterModal extends Component {
 

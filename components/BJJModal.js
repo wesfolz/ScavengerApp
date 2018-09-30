@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {StyleSheet, Modal, Text, View, Linking, TouchableHighlight} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import ClueButton from './ClueButton.js';
-import SpeechBubble from './SpeechBubble.js';
+import ClueButton from './ClueButton';
+import SpeechBubble from './SpeechBubble';
 
 const BJJModal = ({goal, modalVisible, setModalVisible}) => {
 
@@ -12,8 +12,7 @@ const BJJModal = ({goal, modalVisible, setModalVisible}) => {
           animationType="fade" 
           transparent={true}
           visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(false)}}
+          onRequestClose={() => setModalVisible(false)}
         >
           <View style={styles.overlay}>
             <View style={styles.card}>
@@ -85,12 +84,10 @@ const styles = StyleSheet.create({
   headerText: {
     color: '#BDBDBD',
     fontSize: 18,
-    fontFamily: "Roboto",
     margin: 12,
   },
   text: {
     color: 'white', 
-    fontFamily: "Roboto",
     fontSize: 14,
     margin: 12,
     justifyContent: 'center',

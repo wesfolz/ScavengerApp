@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import {StyleSheet, Modal, Text, View, TextInput, Button} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import ClueButton from './ClueButton.js';
-import HeaderBar from './HeaderBar.js';
-import SpeechBubble from './SpeechBubble.js';
+import ClueButton from './ClueButton';
+import HeaderBar from './HeaderBar';
+import SpeechBubble from './SpeechBubble';
 
 export default class CodeModal extends Component {
 

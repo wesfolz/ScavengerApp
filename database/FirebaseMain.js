@@ -1,7 +1,7 @@
 import firebase from 'react-native-firebase'; 
 
-export default class FirebaseMain {
-  static init() {
+const FirebaseMain = {
+  init() {
     if(!firebase.apps.length) {
       firebase.initializeApp({
         apiKey: "AIzaSyC02ylU8_0j3D01Y0YyYkJi5fA-q_T20iM",
@@ -12,49 +12,51 @@ export default class FirebaseMain {
         messagingSenderId: "75285980680"
       });
     }
-  }
+  },
 
-  static getMessageRef(user) {
+  getMessageRef(user) {
     return firebase.database().ref(user + '/messages');
-  }
+  },
 
-  static getLocationRef(user) {
+  getLocationRef(user) {
     return firebase.database().ref(user + '/location');
-  }
+  },
   
-  static getGoalsRef() {
+  getGoalsRef() {
     return firebase.database().ref('Goals');
-  }
+  },
 
-  static getGoalRef(goal) {
+  getGoalRef(goal) {
     return firebase.database().ref('Goals/' + goal);
-  }
+  },
 
-  static getGoalStatusRef(goal) {
+  getGoalStatusRef(goal) {
     return firebase.database().ref('Goals/' + goal +'/status');
-  }
+  },
 
-  static getCurrentGoalRef() {
+  getCurrentGoalRef() {
     return firebase.database().ref('CurrentGoal');
-  }
+  },
 
-  static addMessage(user, message) {
+  addMessage(user, message) {
     FirebaseMain.getMessageRef(user).push(message);
-  }
+  },
 
-  static addLocation(user, location) {
+  addLocation(user, location) {
     FirebaseMain.getLocationRef(user).push(location);
-  }
+  },
 
-  static setLocation(user, location) {
+  setLocation(user, location) {
     FirebaseMain.getLocationRef(user).set(location);
-  }
+  },
 
-  static setGoalStatus(goalName, status) {
-    FirebaseMain.getGoalStatusRef(goalName).set(status);
-  }
-
-  static setCurrentGoal(goal) {
+  setGoalStatus(goalName, status) {
+    FirebaseMain.getGoalStatusRef(goalName).set(status)
+  },
+  
+  setCurrentGoal(goal) {
     FirebaseMain.getCurrentGoalRef().set(goal);
   }
 }
+
+export default FirebaseMain;
