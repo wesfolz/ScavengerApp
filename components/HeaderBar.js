@@ -1,20 +1,22 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import CommonStyles from '../styles/CommonStyles';
+import Colors from '../styles/Colors';
 
 const HeaderBar = ({headerText, leftIconPress, leftIconName, rightIconPress, rightIconName}) => {
 
-  const backgroundColor = '#4F4F4F';
-  const textColor = '#F2994A';
+  const backgroundColor = Colors.headerGray;
+  const textColor = Colors.headerOrange;
   return (
-    <View style={[styles.container, {backgroundColor: backgroundColor}]}>
+    <View style={[CommonStyles.headerContainer, {backgroundColor: backgroundColor}]}>
       <TouchableHighlight underlayColor={'grey'} onPress={leftIconPress}>
         <Icon name={leftIconName} size={30} color={textColor} 
           style={[styles.messagesButton, {backgroundColor: backgroundColor}]} 
         />
       </TouchableHighlight>
 
-      <Text style={[styles.headerText, {color: textColor}]}>{headerText}</Text>
+      <Text style={[CommonStyles.headerText, {color: textColor}]}>{headerText}</Text>
       <TouchableHighlight underlayColor={'grey'} onPress={rightIconPress}>
         <Icon name={rightIconName} size={30} color={textColor} 
           style={[styles.messagesButton, {backgroundColor: backgroundColor}]} 
@@ -25,22 +27,9 @@ const HeaderBar = ({headerText, leftIconPress, leftIconName, rightIconPress, rig
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: 54,
-    width: '100%',
-    borderRadius: 8,
-  },
   messagesButton: {
     margin: 12,
   },
-  headerText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    margin: 12,
-  }
 });
 
 export default HeaderBar;

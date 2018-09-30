@@ -1,5 +1,6 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Colors from '../styles/Colors';
 
 const ClueButton = (props) => {
 
@@ -11,9 +12,6 @@ const ClueButton = (props) => {
       case 'unlocked':
         return 'help';
 
-      case 'done':
-        return 'check';
-
       default:
         return 'lock';
     }
@@ -22,13 +20,10 @@ const ClueButton = (props) => {
   getColor = () => {
     switch(props.status) {
       case 'locked':
-        return '#333333';
+        return Colors.headerGray;
 
       case 'unlocked':
-        return '#2D9CDB';
-
-      case 'done':
-        return '#27AE60';
+        return Colors.questionBlue;
 
       default:
         return '#333333';

@@ -1,8 +1,10 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {StyleSheet, Modal, Text, View, Linking} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ClueButton from './ClueButton';
 import SpeechBubble from './SpeechBubble';
+import CommonStyles from '../styles/CommonStyles';
+import Colors from '../styles/Colors';
 
 const BurgerModal = ({goal, modalVisible, setModalVisible}) => {
   
@@ -14,22 +16,19 @@ const BurgerModal = ({goal, modalVisible, setModalVisible}) => {
           visible={modalVisible}
           onRequestClose={() => setModalVisible(false)}
         >
-          <View style={styles.overlay}>
-            <View style={styles.card}>
-              <View style={styles.headerContainer}>
-                <Icon name={goal.iconName} size={30} color={'#ffdb58'} style={styles.headerIcon}/>
+          <View style={CommonStyles.overlay}>
+            <View style={[CommonStyles.card, styles.card]}>
+              <View style={[CommonStyles.headerContainer, {backgroundColor: Colors.ketchup}]}>
+                <Icon name={goal.iconName} size={30} color={Colors.mustard} style={styles.headerIcon}/>
                 <Text style={styles.headerText}>{goal.headerText}</Text>
-                <Icon name={'close-circle'} size={30} color={'#ffdb58'} 
+                <Icon name={'close-circle'} size={30} color={Colors.mustard} 
                   style={styles.headerIcon} onPress={() => setModalVisible(false)}/>
               </View>
-
-              <View style={styles.cardContent}>
-                <SpeechBubble text={goal.bodyText}/>
-                <View style={styles.textBackground}>
-                  <Icon name="youtube" size={50} color="#ce2522" onPress={() =>
-                    Linking.openURL('https://www.youtube.com/watch?v=oxv6-npAxpY')}
-                  />
-                </View>
+              <SpeechBubble text={goal.bodyText}/>
+              <View style={CommonStyles.cardContent}>
+                <Icon name="youtube" size={50} color={Colors.ketchup} onPress={() =>
+                  Linking.openURL('https://www.youtube.com/watch?v=oxv6-npAxpY')}
+                />
               </View>
             </View>
           </View>
@@ -40,39 +39,12 @@ const BurgerModal = ({goal, modalVisible, setModalVisible}) => {
 }
 
 const styles = StyleSheet.create({
-  overlay: {
-    backgroundColor: '#ffffff80', 
-    width: '100%', 
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   card: {
-    borderRadius: 8,
-    flexDirection: 'column',
-    backgroundColor: '#ffdb58',
-    justifyContent: 'flex-start',
-    width: '90%',
-    height: 250,//'50%'
-  },
-  cardContent: {
-    flex: 1,
-    borderRadius: 8,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerContainer: {
-    borderRadius: 8,
-    flexDirection: 'row',
-    backgroundColor: '#ce2522',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: 54,
+    backgroundColor: Colors.mustard,
   },
   headerIcon:
   {
-    backgroundColor: '#ce2522',
+    backgroundColor: Colors.ketchup,
     margin: 12,
   },
   headerText: {
@@ -81,25 +53,6 @@ const styles = StyleSheet.create({
     fontFamily: "Bob's Burgers",
     margin: 12,
   },
-  textBackground: {
-    backgroundColor: '#00000015', 
-    borderRadius: 8, 
-    //width: '100%', 
-    //height: '80%', 
-    flexDirection: 'row',
-    margin: 5,
-    justifyContent: 'center', 
-    alignItems: 'center'
-  },
-  text: {
-    color: 'black', 
-    fontFamily: "Bob's Burgers",
-    fontSize: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    width: '80%',
-  }
 });
 
 export default BurgerModal;

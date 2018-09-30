@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Image, Text, StyleSheet} from 'react-native'; 
 
+import Colors from '../styles/Colors';
+
 export default ({text}) => {
 
 	return (
@@ -26,10 +28,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   bubble: {
-    borderRadius: 50,
+    borderRadius: 25,
     padding: 8,
     marginTop: 10,
-    backgroundColor: 'white',
+    backgroundColor: Colors.overlayWhite,
     width: 200
   },
   image: {
@@ -42,6 +44,6 @@ const styles = StyleSheet.create({
   	fontSize: 24,
   	fontFamily: "Bob's Burgers",
   	textAlign: 'center',
-  	color: 'black',// '#ffdb58',// '#ce2522',//'#2D9CDB'
+  	color: 'black',
   },
 });

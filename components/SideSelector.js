@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import { StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Colors from '../styles/Colors';
 
 export default class SideSelector extends Component {
   static defaultProps = {
     selectedSize: 50,
     normalSize: 25,
-    normalColor: '#000000',
-    selectedColor: '#F2994A',
+    normalColor: 'black',
+    selectedColor: Colors.headerOrange,
     selectorPress: console.log,
     selectedIndex: 0,
     selectorItems: [],

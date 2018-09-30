@@ -41,7 +41,6 @@ export default class Geolocation {
 
       if(distance <= (this.distanceFilter*2)) {
         //update goal status in database
-        //alert('distance ' + distance + ' lat ' + position.coords.latitude + ' lon ' + position.coords.longitude);
         this.goalCallback();
         this.goal = null;
       }

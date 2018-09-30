@@ -10,6 +10,7 @@ import BurgerModal from './BurgerModal';
 import BJJModal from './BJJModal';
 import CodeModal from './CodeModal';
 import TheaterModal from './TheaterModal';
+import Colors from '../styles/Colors';
 
 export default class ScavengerMain extends Component {
 
@@ -105,7 +106,6 @@ export default class ScavengerMain extends Component {
   }
 
   onGoalCompleted() {
-    alert('Goal Completed ' + this.currentGoal.name);
     FirebaseMain.setGoalStatus(this.currentGoal.name, 'done');
     this.goals[this.currentGoal.index].status = 'done';
  
@@ -114,19 +114,19 @@ export default class ScavengerMain extends Component {
 
     const icons = this.state.selectorItems.slice();
     icons[prevIndex] = this.goalIconName(this.currentGoal);
-
-    //if(this.state.selectedIndex < this.goals.length) {
  
-      FirebaseMain.setGoalStatus(this.goals[newIndex].name, 'unlocked');
-      this.goals[newIndex].status = 'unlocked';
-  
-      this.setCurrentGoal(this.goals[newIndex]);
-      this.setState({
-        nextVisible: true,
-        selectorItems: icons,
-      });
-    //}
+    FirebaseMain.setGoalStatus(this.goals[newIndex].name, 'unlocked');
+    this.goals[newIndex].status = 'unlocked';
+
+    this.setCurrentGoal(this.goals[newIndex]);
     this.setModalVisible(false);
+
+    this.setState({
+      nextVisible: true,
+      selectorItems: icons,
+      selectedIndex: prevIndex,
+    });
+    
     Animated.timing(                  // Animate over time
     this.state.blurAnim,            // The animated value to drive
     {
@@ -169,8 +169,8 @@ export default class ScavengerMain extends Component {
   nextButton() {
     if(this.state.nextVisible) {
       return (
-        <Icon.Button name={'arrow-right-thick'} color={'#F2994A'}
-          backgroundColor={'#4F4F4F'} onPress={() => this.goToGoal(this.state.selectedIndex + 1)}>
+        <Icon.Button name={'arrow-right-thick'} color={Colors.headerOrange}
+          backgroundColor={Colors.headerGray} onPress={() => this.goToGoal(this.state.selectedIndex + 1)}>
           <Text style={styles.nextButton}>Next Clue</Text>
         </Icon.Button>
       );
@@ -212,6 +212,7 @@ export default class ScavengerMain extends Component {
           resizeMode="cover"
           blurRadius={this.state.selectedIndex === 0 ? 8 : 2}
         />
+        <View style={styles.headerBand}/>
         <HeaderBar headerText={'Where is papa?'} leftIconName={'comment-text-outline'} 
           leftIconPress={() => this.props.navigation.openDrawer()}
           rightIconName={'help-circle-outline'} 
@@ -234,12 +235,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#ffffff',
+    backgroundColor: 'white',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
     height: '100%',
 
+  },
+  headerBand: {
+    position: 'absolute',
+    width: '100%',
+    height: 54,
+    top: 0,
+    left: 0,
+    backgroundColor: Colors.headerGray,
   },
   ringImage: {
     position: 'absolute', //flex 1
@@ -262,8 +271,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   nextButton: {
-    color: '#F2994A', 
-    fontFamily: 'Roboto',
+    color: Colors.headerOrange, 
     fontWeight: 'bold',
   },
 });
