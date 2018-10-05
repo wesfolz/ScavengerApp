@@ -9,8 +9,7 @@ const Colors = {
     inputBlue: '#F2F2F2',
     bjjBlue: '#2F80ED',
     bjjPurple: '#9B51E0',
-    bjjBrown: '#A0522D'
-
+    bjjBrown: '#A0522D',
 };
 
 export default Colors;

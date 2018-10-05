@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, Modal, Text, View, TextInput, Button} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import ClueButton from './ClueButton';
 import HeaderBar from './HeaderBar';
 import SpeechBubble from './SpeechBubble';
@@ -36,6 +38,25 @@ export default class CodeModal extends Component {
     }
   }
 
+  bottomPanel() {
+    return (
+      this.props.goal.status === 'done' ?
+      <View style={CommonStyles.cardContent}>
+        <Icon name="check-circle" color={Colors.headerOrange} size={30}/>
+        <Text style={[styles.text, {color: Colors.headerOrange}]}>{this.props.goal.code}</Text>
+      </View>
+      :
+      <View style={CommonStyles.cardContent}>
+        <Text style={styles.text}>Code:</Text>
+        <TextInput onChangeText={(text) => this.setState({codeText: text})} value={this.state.codeText}
+          style={{backgroundColor: Colors.inputBlue, width: '50%', margin: 10, height: 40}}/>
+        <Button color={Colors.headerGray} title={'Submit'} onPress={() => this.checkCode()}/>
+      </View>
+    );
+  }
+
+
+
   render() {
     return (
       <View>
@@ -50,13 +71,8 @@ export default class CodeModal extends Component {
             <View style={CommonStyles.card}>
               <HeaderBar headerText={this.props.goal.headerText} leftIconName={this.props.goal.iconName}
                rightIconPress={() => this.props.setModalVisible(false)} rightIconName={'close-circle'}/>
-                <SpeechBubble text={this.props.goal.bodyText}/>
-              <View style={CommonStyles.cardContent}>
-                <Text style={styles.text}>Code:</Text>
-                <TextInput onChangeText={(text) => this.setState({codeText: text})} value={this.state.codeText}
-                  style={{backgroundColor: Colors.inputBlue, width: '50%', margin: 10, height: 40}}/>
-                <Button color={Colors.headerGray} title={'Submit'} onPress={() => this.checkCode()}/>
-              </View>
+              <SpeechBubble text={this.props.goal.bodyText}/>
+              {this.bottomPanel()}
             </View>
           </View>
         </Modal>
