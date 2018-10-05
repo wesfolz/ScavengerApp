@@ -108,7 +108,8 @@ export default class ScavengerMain extends Component {
   onGoalCompleted() {
     FirebaseMain.setGoalStatus(this.currentGoal.name, 'done');
     this.goals[this.currentGoal.index].status = 'done';
- 
+    this.currentGoal.status = 'done';
+
     const prevIndex = this.currentGoal.index;
     const newIndex = (prevIndex + 1) < this.goals.length ? prevIndex + 1 : 0;
 
