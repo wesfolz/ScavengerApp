@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { GiftedChat } from 'react-native-gifted-chat'
-import FirebaseMain from '../database/FirebaseMain'
+import {Database} from '../firebase/FirebaseMain'
 
 export default class Chat extends Component {
   
@@ -13,8 +13,8 @@ export default class Chat extends Component {
   }
 
   componentWillMount() {
-    FirebaseMain.getMessageRef(this.props.user).on('child_added', (data) => this.messageReceived(data.val()));
-    FirebaseMain.getMessageRef(this.props.interlocutor).once('value').then((data) => this.populateMessages(data.val()));
+    Database.getMessageRef(this.props.user).on('child_added', (data) => this.messageReceived(data.val()));
+    Database.getMessageRef(this.props.interlocutor).once('value').then((data) => this.populateMessages(data.val()));
   }
 
   sortMessages() {
@@ -60,7 +60,7 @@ export default class Chat extends Component {
 
   onSend(messages = []) {
     this.updateMessages(messages);
-    FirebaseMain.addMessage(this.props.interlocutor, messages[messages.length - 1]);
+    Database.addMessage(this.props.interlocutor, messages[messages.length - 1]);
   }
 
   render() {

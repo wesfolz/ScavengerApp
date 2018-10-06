@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, Button, Animated, Image, Easing} from 'react-nat
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Geolocation from '../geolocation/Geolocation';
-import FirebaseMain from '../database/FirebaseMain';
+import {Database, Messaging} from '../firebase/FirebaseMain';
 import SideSelector from './SideSelector';
 import HeaderBar from './HeaderBar';
 import BurgerModal from './BurgerModal';
@@ -17,7 +17,6 @@ export default class ScavengerMain extends Component {
   constructor(props) {
     super(props);
 
-    FirebaseMain.init();
     this.geolocator = new Geolocation('Alexa');
     this.images = [
       require("../images/ring.jpg"), 
@@ -40,8 +39,8 @@ export default class ScavengerMain extends Component {
       nextVisible: false,
       modalVisible: false,
     };
-    FirebaseMain.getGoalsRef().once('value').then((goals) => this.setGoals(goals.val()));
-    FirebaseMain.getCurrentGoalRef().once('value').then((goal) => this.setInitialGoal(goal.val()));
+    Database.getGoalsRef().once('value').then((goals) => this.setGoals(goals.val()));
+    Database.getCurrentGoalRef().once('value').then((goal) => this.setInitialGoal(goal.val()));
   }
 
   componentWillUnmount() {
@@ -96,7 +95,7 @@ export default class ScavengerMain extends Component {
       this.currentGoal = this.goals[this.state.selectedIndex];
     }
 
-    FirebaseMain.setCurrentGoal(this.currentGoal);
+    Database.setCurrentGoal(this.currentGoal);
 
     this.geolocator.clearWatch();
     if(this.currentGoal.type === "location") {
@@ -106,7 +105,9 @@ export default class ScavengerMain extends Component {
   }
 
   onGoalCompleted() {
-    FirebaseMain.setGoalStatus(this.currentGoal.name, 'done');
+    Messaging.sendLocalNotification('Well Done!', 'Goal ' + this.currentGoal.name + ' completed!');
+
+    Database.setGoalStatus(this.currentGoal.name, 'done');
     this.goals[this.currentGoal.index].status = 'done';
     this.currentGoal.status = 'done';
 
@@ -116,7 +117,7 @@ export default class ScavengerMain extends Component {
     const icons = this.state.selectorItems.slice();
     icons[prevIndex] = this.goalIconName(this.currentGoal);
  
-    FirebaseMain.setGoalStatus(this.goals[newIndex].name, 'unlocked');
+    Database.setGoalStatus(this.goals[newIndex].name, 'unlocked');
     this.goals[newIndex].status = 'unlocked';
 
     this.setCurrentGoal(this.goals[newIndex]);
@@ -136,7 +137,6 @@ export default class ScavengerMain extends Component {
       duration: 5000,              // Make it take a while
       useNativeDriver: true, 
     }).start();                        // Starts the animation
-
   }
 
   clueModal() {

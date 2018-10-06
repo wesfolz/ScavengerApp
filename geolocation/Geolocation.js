@@ -1,4 +1,4 @@
-import FirebaseMain from '../database/FirebaseMain';
+import {Database} from '../firebase/FirebaseMain';
 
 export default class Geolocation {
   constructor(user) {
@@ -16,7 +16,7 @@ export default class Geolocation {
 
   getLocation() {
     navigator.geolocation.getCurrentPosition(
-      (position) => FirebaseMain.setLocation(this.user, position),
+      (position) => Database.setLocation(this.user, position),
       (error) => console.log(error.message),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
@@ -45,7 +45,7 @@ export default class Geolocation {
         this.goal = null;
       }
     }
-    FirebaseMain.setLocation(this.user, position);
+    Database.setLocation(this.user, position);
   }
 
   getDistanceFromLatLonInM(lat1,lon1,lat2,lon2) {
