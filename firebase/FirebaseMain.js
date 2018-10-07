@@ -13,7 +13,18 @@ const init = () => {
   }
 };
 
+const authenticate = () => {
+  firebase.auth().signInAnonymously()
+  .then(() => {
+    firebase.auth().currentUser.getIdToken()
+    .then((token) => {
+      Database.setUserToken('Alexa', token);
+    });
+  });
+};
+
 const Messaging = {
+
   requestMessagingPermission() {
     firebase.messaging().hasPermission()
       .then(enabled => {
@@ -22,10 +33,12 @@ const Messaging = {
           alert('need to ask for permissions');
           firebase.messaging().requestPermission()
             .then(() => {
-              // User has authorized  
+              // User has authorized
+              console.log("user authenticated");
             })
             .catch(error => {
               // User has rejected permissions  
+              console.log("user failed to authenticate");
             });
         } else {
         }
@@ -37,6 +50,12 @@ const Messaging = {
 
       // Create the channel
       firebase.notifications().android.createChannel(channel);
+  },
+
+  getDeviceToken() {
+    firebase.messaging().getToken().then((token) => {
+      Database.setUserToken('Alexa', token);
+    });
   },
 
   sendLocalNotification(title, body) {
@@ -53,6 +72,10 @@ const Messaging = {
 };
 
 const Database = {
+
+  getUserTokenRef(user) {
+    return firebase.database().ref(user + '/token');
+  }, 
 
   getMessageRef(user) {
     return firebase.database().ref(user + '/messages');
@@ -78,6 +101,10 @@ const Database = {
     return firebase.database().ref('CurrentGoal');
   },
 
+  setUserToken(userName, token) {
+    Database.getUserTokenRef(userName).set(token);
+  },
+
   addMessage(user, message) {
     Database.getMessageRef(user).push(message);
   },
@@ -101,6 +128,8 @@ const Database = {
 
 init();
 Messaging.requestMessagingPermission();
+Messaging.getDeviceToken();
+//authenticate();
 
 export {
   Database,
