@@ -1,23 +1,25 @@
 import React from 'react';
-import {View, Image, Text, StyleSheet} from 'react-native'; 
+import {View, Image, Text, StyleSheet, ScrollView} from 'react-native'; 
 
 import Colors from '../styles/Colors';
 
 export default ({text}) => {
 
 	return (
-		<View style={styles.container}>
-			<View style={styles.bubble}>
-				<Text style={styles.speechText}>
-					{text}
-				</Text>
-			</View>
-			<Image
-	          source={require('../images/Tiberius.jpg')}
-	          style={styles.image}
-	          resizeMode="contain"
-	        />
-		</View>
+      <View style={styles.container}>
+        <View style={styles.bubble}>
+          <ScrollView>
+            <Text style={styles.speechText}>
+              {text}
+            </Text>
+          </ScrollView>
+        </View>
+        <Image
+          source={require('../images/Tiberius.jpg')}
+          style={styles.image}
+          resizeMode="contain"
+        />
+      </View>
 	);
 }
 
@@ -25,7 +27,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection:'row',
     justifyContent: 'flex-end',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
+    flexShrink: 1,
   },
   bubble: {
     borderRadius: 25,

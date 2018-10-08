@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, Button, Animated, Image, Easing} from 'react-native';
+import {StyleSheet, Text, View, Animated, Image, Easing} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Geolocation from '../geolocation/Geolocation';
@@ -11,6 +11,8 @@ import BJJModal from './BJJModal';
 import CodeModal from './CodeModal';
 import TheaterModal from './TheaterModal';
 import Colors from '../styles/Colors';
+import InfoModal from './InfoModal';
+import CommonStyles from '../styles/CommonStyles';
 
 export default class ScavengerMain extends Component {
 
@@ -158,6 +160,11 @@ export default class ScavengerMain extends Component {
                   setModalVisible={(visible) => this.setModalVisible(visible)} 
                   onGoalCompleted={() => this.onGoalCompleted()} goal={goal}/>
 
+        case 'home':
+          return <InfoModal modalVisible={this.state.modalVisible} 
+                  setModalVisible={(visible) => this.setModalVisible(visible)} 
+                  onGoalCompleted={() => this.onGoalCompleted()} goal={goal}/>
+
         default:
           return <CodeModal modalVisible={this.state.modalVisible} 
                   setModalVisible={(visible) => this.setModalVisible(visible)} 
@@ -172,7 +179,7 @@ export default class ScavengerMain extends Component {
       return (
         <Icon.Button name={'arrow-right-thick'} color={Colors.headerOrange}
           backgroundColor={Colors.headerGray} onPress={() => this.goToGoal(this.state.selectedIndex + 1)}>
-          <Text style={styles.nextButton}>Next Clue</Text>
+          <Text style={CommonStyles.proceedButtonText}>Next Clue</Text>
         </Icon.Button>
       );
     }
@@ -270,9 +277,5 @@ const styles = StyleSheet.create({
     width: '100%',
     marginRight: 20,
     marginBottom: 20,
-  },
-  nextButton: {
-    color: Colors.headerOrange, 
-    fontWeight: 'bold',
   },
 });

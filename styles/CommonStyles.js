@@ -43,8 +43,12 @@ const CommonStyles = StyleSheet.create({
         flexDirection: 'row',
         margin: 5,
         justifyContent: 'center', 
-        alignItems: 'center'
+        alignItems: 'center',
     },
-    });
+    proceedButtonText: {
+        color: Colors.headerOrange, 
+        fontWeight: 'bold',
+    },
+});
 
 export default CommonStyles;
