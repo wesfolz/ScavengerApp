@@ -1,52 +1,35 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Colors from '../styles/Colors';
 
-export default class SideSelector extends Component {
-  static defaultProps = {
-    selectedSize: 50,
-    normalSize: 25,
-    normalColor: 'black',
-    selectedColor: Colors.headerOrange,
-    selectorPress: console.log,
-    selectedIndex: 0,
-    selectorItems: [],
-  };
+const SideSelector = ({ selectedSize = 50, normalSize = 25, normalColor = 'black',
+    selectedColor = Colors.headerOrange, selectorItems = [], selectorPress, selectedIndex }) => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedIndex: 0,
-    }
-  }
-
-  displaySelectors() {
-    return this.props.selectorItems.map((item, index) => (
-       <Icon key={index} name={item} onPress={() => this.props.selectorPress(index)}
-        size={(index === this.props.selectedIndex ? this.props.selectedSize : this.props.normalSize)} 
-        color={(index === this.props.selectedIndex ? this.props.selectedColor : this.props.normalColor)}
-        style={styles.selector}/>));
-  }
-
-  render() {
     return (
-      <View style={styles.sideSelector}>
-        {this.displaySelectors()}
-      </View>
+        <View style={styles.sideSelector}>
+            {
+                selectorItems.map((item, index) => (
+                    <Icon key={index} name={item} onPress={() => selectorPress(index)}
+                        size={(index === selectedIndex ? selectedSize : normalSize)}
+                        color={(index === selectedIndex ? selectedColor : normalColor)}
+                        style={styles.selector} />))
+            }
+        </View>
     );
-  }
 }
 
 const styles = StyleSheet.create({
-  sideSelector: {
-    flexDirection:'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  selector: {
-    marginRight: 5, 
-    marginBottom: 2,
-    alignItems: 'center',
-  }
+    sideSelector: {
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+    selector: {
+        marginRight: 5,
+        marginBottom: 2,
+        alignItems: 'center',
+    }
 });
+
+export default SideSelector;

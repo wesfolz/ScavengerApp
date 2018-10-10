@@ -1,10 +1,10 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import Colors from './Colors';
 
 const CommonStyles = StyleSheet.create({
     overlay: {
-        backgroundColor: Colors.overlayWhite, 
-        width: '100%', 
+        backgroundColor: Colors.overlayWhite,
+        width: '100%',
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center'
@@ -14,7 +14,7 @@ const CommonStyles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: Colors.questionBlue,
         justifyContent: 'space-between',
-        width: '90%', 
+        width: '90%',
         height: 250,//'50%'
     },
     headerContainer: {
@@ -38,15 +38,15 @@ const CommonStyles = StyleSheet.create({
         color: '#F2994A',
     },
     cardContent: {
-        backgroundColor: Colors.darken, 
-        borderRadius: 8, 
+        backgroundColor: Colors.darken,
+        borderRadius: 8,
         flexDirection: 'row',
         margin: 5,
-        justifyContent: 'center', 
+        justifyContent: 'center',
         alignItems: 'center',
     },
     proceedButtonText: {
-        color: Colors.headerOrange, 
+        color: Colors.headerOrange,
         fontWeight: 'bold',
     },
 });
