@@ -33,6 +33,7 @@ export default class ScavengerMain extends Component {
 
         this.goals = [];
         this.currentGoal = null;
+        this.finalGoal = null;
         this.state = {
             blurAnim: new Animated.Value(1),
             selectedIndex: 0,
@@ -42,7 +43,6 @@ export default class ScavengerMain extends Component {
             modalVisible: false,
         };
         Database.getGoalsRef().once('value').then((goals) => this.setGoals(goals.val()));
-        Database.getCurrentGoalRef().once('value').then((goal) => this.setInitialGoal(goal.val()));
     }
 
     componentWillUnmount() {
@@ -51,7 +51,6 @@ export default class ScavengerMain extends Component {
 
     setGoals(goals) {
         this.goals = Object.keys(goals).map((key) => {
-            goals[key].visible = false;
             return goals[key];
         });
         this.goals.sort(this.compareGoals);
@@ -62,6 +61,8 @@ export default class ScavengerMain extends Component {
             blurAnim: this.goals[this.state.selectedIndex].status === "done" ? new Animated.Value(0) : new Animated.Value(1),
             nextVisible: this.goals[this.state.selectedIndex].status === 'done',
         });
+
+        Database.getCurrentGoalRef().once('value').then((goal) => this.setInitialGoal(goal.val()));
     }
 
     compareGoals(a, b) {
@@ -89,6 +90,15 @@ export default class ScavengerMain extends Component {
         this.setState({
             selectedIndex: this.currentGoal.index
         });
+        Database.getFinalGoalRef().once('value').then((goal) => this.setFinalGoal(goal.val()));
+    }
+
+    setFinalGoal(goal) {
+        this.finalGoal = goal;
+
+        if (this.currentGoal.name === this.finalGoal.name) {
+            this.goals[0] = this.finalGoal;
+        }
     }
 
     setCurrentGoal(goal) {
@@ -107,20 +117,27 @@ export default class ScavengerMain extends Component {
     }
 
     onGoalCompleted() {
-        Messaging.sendLocalNotification('Well Done!', 'Goal ' + this.currentGoal.name + ' completed!');
+        if (this.currentGoal.type === 'location') {
+            Messaging.sendLocalNotification('Well Done!', 'Goal ' + this.currentGoal.name + ' completed!');
+        }
 
         Database.setGoalStatus(this.currentGoal.name, 'done');
         this.goals[this.currentGoal.index].status = 'done';
         this.currentGoal.status = 'done';
 
         const prevIndex = this.currentGoal.index;
-        const newIndex = (prevIndex + 1) < this.goals.length ? prevIndex + 1 : 0;
+        const finale = (prevIndex + 1) >= this.goals.length;
+        const newIndex = finale ? 0 : prevIndex + 1;
 
         const icons = this.state.selectorItems.slice();
         icons[prevIndex] = this.goalIconName(this.currentGoal);
 
         Database.setGoalStatus(this.goals[newIndex].name, 'unlocked');
         this.goals[newIndex].status = 'unlocked';
+
+        if (finale) {
+            this.goals[0] = this.finalGoal;
+        }
 
         this.setCurrentGoal(this.goals[newIndex]);
         this.setModalVisible(false);
@@ -165,6 +182,11 @@ export default class ScavengerMain extends Component {
                         setModalVisible={(visible) => this.setModalVisible(visible)}
                         onGoalCompleted={() => this.onGoalCompleted()} goal={goal} proceedAction={() => this.goToGoal(this.state.selectedIndex + 1)} />
 
+                case 'finale':
+                    return <InfoModal modalVisible={this.state.modalVisible}
+                        setModalVisible={(visible) => this.setModalVisible(visible)}
+                        onGoalCompleted={() => this.onGoalCompleted()} goal={goal} proceedAction={() => this.goToGoal(this.state.selectedIndex + 1)} />
+
                 default:
                     return <CodeModal modalVisible={this.state.modalVisible}
                         setModalVisible={(visible) => this.setModalVisible(visible)}
@@ -176,10 +198,11 @@ export default class ScavengerMain extends Component {
 
     nextButton() {
         if (this.state.nextVisible) {
+            const nextIndex = this.state.selectedIndex + 1;
             return (
                 <Icon.Button name={'arrow-right-thick'} color={Colors.headerOrange}
-                    backgroundColor={Colors.headerGray} onPress={() => this.goToGoal(this.state.selectedIndex + 1)}>
-                    <Text style={CommonStyles.proceedButtonText}>Next Clue</Text>
+                    backgroundColor={Colors.headerGray} onPress={() => this.goToGoal(nextIndex)}>
+                    <Text style={CommonStyles.proceedButtonText}>{nextIndex >= this.goals.length ? 'Go Home' : 'Next Clue'}</Text>
                 </Icon.Button>
             );
         }

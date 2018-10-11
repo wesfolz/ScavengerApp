@@ -101,6 +101,10 @@ const Database = {
         return firebase.database().ref('CurrentGoal');
     },
 
+    getFinalGoalRef() {
+        return firebase.database().ref('FinalGoal');
+    },
+
     setUserToken(userName, token) {
         Database.getUserTokenRef(userName).set(token);
     },
