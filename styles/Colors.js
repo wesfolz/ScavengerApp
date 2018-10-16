@@ -1,6 +1,6 @@
 const Colors = {
-    ketchup: '#ce2522',
-    mustard: '#ffdb58',
+    ketchup: '#EB2532',
+    mustard: '#F4E023',
     headerGray: '#333333',
     headerOrange: '#F2994A',
     questionBlue: '#2D9CDB',

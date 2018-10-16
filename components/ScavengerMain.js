@@ -12,6 +12,7 @@ import CodeModal from './CodeModal';
 import TheaterModal from './TheaterModal';
 import Colors from '../styles/Colors';
 import InfoModal from './InfoModal';
+import LoadingModal from './LoadingModal';
 import CommonStyles from '../styles/CommonStyles';
 
 export default class ScavengerMain extends Component {
@@ -41,6 +42,7 @@ export default class ScavengerMain extends Component {
             viewRef: null,
             nextVisible: false,
             modalVisible: false,
+            loading: true,
         };
         Database.getGoalsRef().once('value').then((goals) => this.setGoals(goals.val()));
     }
@@ -99,6 +101,9 @@ export default class ScavengerMain extends Component {
         if (this.currentGoal.name === this.finalGoal.name) {
             this.goals[0] = this.finalGoal;
         }
+        this.setState({
+            loading: false,
+        })
     }
 
     setCurrentGoal(goal) {
@@ -232,14 +237,15 @@ export default class ScavengerMain extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <LoadingModal modalVisible={this.state.loading} />
                 {this.state.nextVisible ? <Image
                     source={this.images[this.state.selectedIndex]}
-                    style={styles.ringImage}
+                    style={CommonStyles.imageFull}
                     resizeMode="contain"
                 /> : null}
                 <Animated.Image
                     source={this.images[this.state.selectedIndex]}
-                    style={[styles.ringImage, { opacity: this.state.blurAnim }]}
+                    style={[CommonStyles.imageFull, { opacity: this.state.blurAnim }]}
                     resizeMode="cover"
                     blurRadius={this.state.selectedIndex === 0 ? 8 : 2}
                 />
