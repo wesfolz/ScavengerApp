@@ -13,6 +13,7 @@ import TheaterModal from './TheaterModal';
 import Colors from '../styles/Colors';
 import InfoModal from './InfoModal';
 import LoadingModal from './LoadingModal';
+import CompletionModal from './CompletionModal';
 import CommonStyles from '../styles/CommonStyles';
 
 export default class ScavengerMain extends Component {
@@ -39,10 +40,10 @@ export default class ScavengerMain extends Component {
             blurAnim: new Animated.Value(1),
             selectedIndex: 0,
             selectorItems: [],
-            viewRef: null,
             nextVisible: false,
             modalVisible: false,
             loading: true,
+            completionVisible: false,
         };
         Database.getGoalsRef().once('value').then((goals) => this.setGoals(goals.val()));
     }
@@ -148,19 +149,10 @@ export default class ScavengerMain extends Component {
         this.setModalVisible(false);
 
         this.setState({
-            nextVisible: true,
             selectorItems: icons,
             selectedIndex: prevIndex,
+            completionVisible: true,
         });
-
-        Animated.timing(                  // Animate over time
-            this.state.blurAnim,            // The animated value to drive
-            {
-                toValue: 0,                   // Animate to opacity: 1 (opaque)
-                easing: Easing.inOut(Easing.ease),
-                duration: 5000,              // Make it take a while
-                useNativeDriver: true,
-            }).start();                        // Starts the animation
     }
 
     clueModal() {
@@ -201,6 +193,15 @@ export default class ScavengerMain extends Component {
         return null;
     }
 
+    completionModal() {
+        const goal = this.goals[this.state.selectedIndex];
+        if (goal != null) {
+            return <CompletionModal text={goal.completionMessage || "Looks like we just missed Papa."}
+                setModalVisible={(visible) => this.setCompletionVisible(visible)} modalVisible={this.state.completionVisible} />
+        }
+        return null;
+    }
+
     nextButton() {
         if (this.state.nextVisible) {
             const nextIndex = this.state.selectedIndex + 1;
@@ -234,6 +235,24 @@ export default class ScavengerMain extends Component {
         }
     }
 
+    setCompletionVisible(visible) {
+        if (!visible) {
+            Animated.timing(                  // Animate over time
+                this.state.blurAnim,            // The animated value to drive
+                {
+                    toValue: 0,                   // Animate to opacity: 1 (opaque)
+                    easing: Easing.inOut(Easing.ease),
+                    duration: 5000,              // Make it take a while
+                    useNativeDriver: true,
+                }).start();                        // Starts the animation
+        }
+
+        this.setState({
+            completionVisible: visible,
+            nextVisible: true,
+        });
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -256,6 +275,7 @@ export default class ScavengerMain extends Component {
                     rightIconPress={() => this.setModalVisible(true)}
                 />
                 {this.clueModal()}
+                {this.completionModal()}
                 <View style={styles.nextView}>
                     {this.nextButton()}
                 </View>
@@ -286,13 +306,6 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         backgroundColor: Colors.headerGray,
-    },
-    ringImage: {
-        position: 'absolute', //flex 1
-        width: '100%', //undefined 
-        height: '100%', //undefined
-        top: 0,
-        left: 0,
     },
     sidebarContainer: {
         position: 'absolute',

@@ -35,7 +35,9 @@ const styles = StyleSheet.create({
         padding: 8,
         marginTop: 10,
         backgroundColor: Colors.overlayWhite,
-        width: 200
+        width: 200,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     image: {
         borderRadius: 100,

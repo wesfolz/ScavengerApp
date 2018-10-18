@@ -10,6 +10,7 @@ const Colors = {
     bjjBlue: '#2F80ED',
     bjjPurple: '#9B51E0',
     bjjBrown: '#A0522D',
+    completionGreen: '#27AE60',
 };
 
 export default Colors;

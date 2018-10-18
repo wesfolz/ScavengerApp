@@ -55,8 +55,6 @@ export default class CodeModal extends Component {
         );
     }
 
-
-
     render() {
         return (
             <View>
