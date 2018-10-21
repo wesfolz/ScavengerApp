@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Modal, Text, View, Linking, TouchableHighlight } from 'react-native';
+import { StyleSheet, Modal, Text, View, Linking, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ClueButton from './ClueButton';
 import SpeechBubble from './SpeechBubble';
@@ -21,11 +21,11 @@ const BurgerModal = ({ goal, modalVisible, setModalVisible }) => {
                         <View style={[CommonStyles.headerContainer, { backgroundColor: Colors.ketchup }]}>
                             <Icon name={goal.iconName} size={30} color={Colors.mustard} style={styles.headerIcon} />
                             <Text style={styles.headerText}>{goal.headerText}</Text>
-                            <TouchableHighlight underlayColor={'grey'} onPress={() => setModalVisible(false)}>
+                            <TouchableOpacity underlayColor={'grey'} onPress={() => setModalVisible(false)}>
                                 <Icon name={'close-circle'} size={30} color={Colors.mustard}
                                     style={styles.headerIcon}
                                 />
-                            </TouchableHighlight>
+                            </TouchableOpacity>
                         </View>
                         <SpeechBubble text={goal.bodyText} />
                         <View style={CommonStyles.cardContent}>

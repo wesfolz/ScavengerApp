@@ -1,11 +1,12 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Colors from '../styles/Colors';
 
-const ClueButton = (props) => {
+const ClueButton = ({ status, onPress }) => {
 
     getIconName = () => {
-        switch (props.status) {
+        switch (status) {
             case 'locked':
                 return 'lock';
 
@@ -18,7 +19,7 @@ const ClueButton = (props) => {
     }
 
     getColor = () => {
-        switch (props.status) {
+        switch (status) {
             case 'locked':
                 return Colors.headerGray;
 
@@ -30,12 +31,15 @@ const ClueButton = (props) => {
         }
     }
 
-    let icon = null;
-    if (props.status != 'done') {
-        icon = <Icon onPress={props.onPress} name={getIconName()} size={250} color={getColor()} />;
+    if (status != 'done') {
+        return (
+            <TouchableOpacity underlayColor='grey' onPress={onPress}>
+                <Icon name={getIconName()} size={250} color={getColor()} />
+            </TouchableOpacity>
+        );
     }
 
-    return icon;
+    return null;
 }
 
 export default ClueButton;

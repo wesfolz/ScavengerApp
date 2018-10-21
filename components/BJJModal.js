@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Modal, Text, View, Linking, TouchableHighlight } from 'react-native';
+import { StyleSheet, Modal, Text, View, Linking, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ClueButton from './ClueButton';
 import SpeechBubble from './SpeechBubble';
@@ -21,11 +21,11 @@ const BJJModal = ({ goal, modalVisible, setModalVisible }) => {
                         <View style={[styles.stripe, styles.headerContainer]}>
                             <Icon name={'octagon'} size={30} color={Colors.headerOrange} style={styles.headerIcon} />
                             <Text style={CommonStyles.headerText}>{goal.headerText}</Text>
-                            <TouchableHighlight underlayColor={'grey'} onPress={() => setModalVisible(false)}>
+                            <TouchableOpacity underlayColor={'grey'} onPress={() => setModalVisible(false)}>
                                 <Icon name={'close-circle'} size={30} color={Colors.headerOrange}
                                     style={styles.headerIcon}
                                 />
-                            </TouchableHighlight>
+                            </TouchableOpacity>
                         </View>
                         <View style={[styles.stripe, { backgroundColor: Colors.bjjBrown }]} />
                         <View style={[styles.stripe, { backgroundColor: Colors.bjjPurple }]}>

@@ -15,6 +15,7 @@ import InfoModal from './InfoModal';
 import LoadingModal from './LoadingModal';
 import CompletionModal from './CompletionModal';
 import CommonStyles from '../styles/CommonStyles';
+import FinalQuestionModal from './FinalQuestionModal';
 
 export default class ScavengerMain extends Component {
 
@@ -44,6 +45,7 @@ export default class ScavengerMain extends Component {
             modalVisible: false,
             loading: true,
             completionVisible: false,
+            finaleVisible: false,
         };
         Database.getGoalsRef().once('value').then((goals) => this.setGoals(goals.val()));
     }
@@ -64,7 +66,6 @@ export default class ScavengerMain extends Component {
             blurAnim: this.goals[this.state.selectedIndex].status === "done" ? new Animated.Value(0) : new Animated.Value(1),
             nextVisible: this.goals[this.state.selectedIndex].status === 'done',
         });
-
         Database.getCurrentGoalRef().once('value').then((goal) => this.setInitialGoal(goal.val()));
     }
 
@@ -93,18 +94,30 @@ export default class ScavengerMain extends Component {
         this.setState({
             selectedIndex: this.currentGoal.index
         });
-        Database.getFinalGoalRef().once('value').then((goal) => this.setFinalGoal(goal.val()));
+        Database.getFinalGoalRef().on('value', (goal) => this.setFinalGoal(goal.val()));
     }
 
     setFinalGoal(goal) {
-        this.finalGoal = goal;
+        if (this.finalGoal == null) {
+            this.finalGoal = goal;
 
-        if (this.currentGoal.name === this.finalGoal.name) {
-            this.goals[0] = this.finalGoal;
+            if (this.currentGoal.name === this.finalGoal.name) {
+                this.goals[0] = this.finalGoal;
+            }
+            this.setState({
+                loading: false,
+            })
         }
-        this.setState({
-            loading: false,
-        })
+        else if (this.currentGoal.name === this.finalGoal.name) {
+            Messaging.sendLocalNotification('One question...');
+            Database.setGoalStatus('home', 'done');
+            this.goals[this.currentGoal.index].status = 'done';
+            this.currentGoal.status = 'done';
+
+            this.setState({
+                finaleVisible: true,
+            })
+        }
     }
 
     setCurrentGoal(goal) {
@@ -135,10 +148,9 @@ export default class ScavengerMain extends Component {
         const finale = (prevIndex + 1) >= this.goals.length;
         const newIndex = finale ? 0 : prevIndex + 1;
 
-        const icons = this.state.selectorItems.slice();
-        icons[prevIndex] = this.goalIconName(this.currentGoal);
+        const selectorItems = this.state.selectorItems.slice();
+        selectorItems[prevIndex] = this.goalIconName(this.currentGoal);
 
-        Database.setGoalStatus(this.goals[newIndex].name, 'unlocked');
         this.goals[newIndex].status = 'unlocked';
 
         if (finale) {
@@ -149,10 +161,12 @@ export default class ScavengerMain extends Component {
         this.setModalVisible(false);
 
         this.setState({
-            selectorItems: icons,
+            selectorItems,
             selectedIndex: prevIndex,
             completionVisible: true,
         });
+
+        Database.setGoalStatus(this.goals[newIndex].name, 'unlocked');
     }
 
     clueModal() {
@@ -197,7 +211,7 @@ export default class ScavengerMain extends Component {
         const goal = this.goals[this.state.selectedIndex];
         if (goal != null) {
             return <CompletionModal text={goal.completionMessage || "Looks like we just missed Papa."}
-                setModalVisible={(visible) => this.setCompletionVisible(visible)} modalVisible={this.state.completionVisible} />
+                setModalVisible={() => this.completeGoal()} modalVisible={this.state.completionVisible} />
         }
         return null;
     }
@@ -235,7 +249,7 @@ export default class ScavengerMain extends Component {
         }
     }
 
-    setCompletionVisible(visible) {
+    completeGoal(visible) {
         if (!visible) {
             Animated.timing(                  // Animate over time
                 this.state.blurAnim,            // The animated value to drive
@@ -276,6 +290,7 @@ export default class ScavengerMain extends Component {
                 />
                 {this.clueModal()}
                 {this.completionModal()}
+                <FinalQuestionModal setModalVisible={(visible) => this.setState({ finaleVisible: visible })} modalVisible={this.state.finaleVisible} onYes={() => this.completeGoal(false)} />
                 <View style={styles.nextView}>
                     {this.nextButton()}
                 </View>

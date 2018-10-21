@@ -1,19 +1,22 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Colors from '../styles/Colors';
 
-const SideSelector = ({ selectedSize = 50, normalSize = 25, normalColor = 'black',
+const SideSelector = ({ selectedSize = 50, normalSize = 25, normalColor = Colors.headerGray,
     selectedColor = Colors.headerOrange, selectorItems = [], selectorPress, selectedIndex }) => {
 
     return (
         <View style={styles.sideSelector}>
             {
                 selectorItems.map((item, index) => (
-                    <Icon key={index} name={item} onPress={() => selectorPress(index)}
-                        size={(index === selectedIndex ? selectedSize : normalSize)}
-                        color={(index === selectedIndex ? selectedColor : normalColor)}
-                        style={styles.selector} />))
+                    <TouchableOpacity key={index} underlayColor='grey' onPress={() => selectorPress(index)}>
+                        <Icon name={item}
+                            size={(index === selectedIndex ? selectedSize : normalSize)}
+                            color={(index === selectedIndex ? selectedColor : normalColor)}
+                            style={styles.selector} />
+                    </TouchableOpacity>
+                ))
             }
         </View>
     );

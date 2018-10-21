@@ -11,10 +11,10 @@ const CompletionModal = ({ text, modalVisible, setModalVisible }) => {
             animationType="fade"
             transparent={true}
             visible={modalVisible}
-            onRequestClose={() => setModalVisible(false)}
+            onRequestClose={() => setModalVisible()}
         >
             <View style={CommonStyles.overlay}>
-                <TouchableOpacity style={[CommonStyles.card, styles.card]} onPress={() => setModalVisible(false)}>
+                <TouchableOpacity style={[CommonStyles.card, styles.card]} onPress={() => setModalVisible()}>
                     <Image
                         source={require('../images/IMG_20181013_142608.jpg')}
                         style={styles.image}
