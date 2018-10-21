@@ -45,8 +45,8 @@ const Messaging = {
             });
 
         // Build a channel
-        const channel = new firebase.notifications.Android.Channel('test-channel', 'Test Channel', firebase.notifications.Android.Importance.Max)
-            .setDescription('My apps test channel');
+        const channel = new firebase.notifications.Android.Channel('scavenger-channel', 'Scavenger Channel', firebase.notifications.Android.Importance.Max)
+            .setDescription('Scavenger Channel');
 
         // Create the channel
         firebase.notifications().android.createChannel(channel);
@@ -63,8 +63,8 @@ const Messaging = {
             .setNotificationId('notificationId')
             .setTitle(title)
             .setBody(body)
-            .android.setChannelId('test-channel')
-            .android.setSmallIcon('ic_launcher');
+            .android.setChannelId('scavenger-channel')
+            .android.setSmallIcon('ic_notification');
 
         firebase.notifications().displayNotification(notification);
     },
