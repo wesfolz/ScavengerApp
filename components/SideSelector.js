@@ -10,12 +10,13 @@ const SideSelector = ({ selectedSize = 50, normalSize = 25, normalColor = Colors
         <View style={styles.sideSelector}>
             {
                 selectorItems.map((item, index) => (
-                    <TouchableOpacity key={index} underlayColor='grey' onPress={() => selectorPress(index)}>
-                        <Icon name={item}
-                            size={(index === selectedIndex ? selectedSize : normalSize)}
-                            color={(index === selectedIndex ? selectedColor : normalColor)}
-                            style={styles.selector} />
-                    </TouchableOpacity>
+                    item === 'none' ? null :
+                        <TouchableOpacity key={index} underlayColor='grey' onPress={() => selectorPress(index)}>
+                            <Icon name={item}
+                                size={(index === selectedIndex ? selectedSize : normalSize)}
+                                color={(index === selectedIndex ? selectedColor : normalColor)}
+                                style={styles.selector} />
+                        </TouchableOpacity>
                 ))
             }
         </View>

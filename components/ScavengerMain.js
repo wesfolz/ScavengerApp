@@ -86,7 +86,7 @@ export default class ScavengerMain extends Component {
         else if (goal.status === "unlocked") {
             return "help-circle";
         }
-        return "lock";
+        return "none";
     }
 
     setInitialGoal(goal) {
@@ -135,6 +135,20 @@ export default class ScavengerMain extends Component {
         }
     }
 
+    proceedFromHome() {
+        if (this.currentGoal.name === 'home') {
+            this.setModalVisible(false);
+            this.unlockGoal(1);
+        }
+        this.goToGoal(1);
+    }
+
+    unlockGoal(index) {
+        this.goals[index].status = 'unlocked';
+        Database.setGoalStatus(this.goals[index].name, 'unlocked');
+        this.setCurrentGoal(this.goals[index]);
+    }
+
     onGoalCompleted() {
         if (this.currentGoal.type === 'location') {
             Messaging.sendLocalNotification('Well Done!', 'Goal ' + this.currentGoal.name + ' completed!');
@@ -151,13 +165,13 @@ export default class ScavengerMain extends Component {
         const selectorItems = this.state.selectorItems.slice();
         selectorItems[prevIndex] = this.goalIconName(this.currentGoal);
 
-        this.goals[newIndex].status = 'unlocked';
-
         if (finale) {
             this.goals[0] = this.finalGoal;
+            this.setCurrentGoal(this.goals[0]);
+        } else {
+            this.unlockGoal(newIndex);
         }
 
-        this.setCurrentGoal(this.goals[newIndex]);
         this.setModalVisible(false);
 
         this.setState({
@@ -165,8 +179,7 @@ export default class ScavengerMain extends Component {
             selectedIndex: prevIndex,
             completionVisible: true,
         });
-
-        Database.setGoalStatus(this.goals[newIndex].name, 'unlocked');
+        //this.unlockGoal(newIndex);
     }
 
     clueModal() {
@@ -191,12 +204,12 @@ export default class ScavengerMain extends Component {
                 case 'home':
                     return <InfoModal modalVisible={this.state.modalVisible}
                         setModalVisible={(visible) => this.setModalVisible(visible)}
-                        onGoalCompleted={() => this.onGoalCompleted()} goal={goal} proceedAction={() => this.goToGoal(this.state.selectedIndex + 1)} />
+                        goal={goal} proceedAction={() => this.proceedFromHome()} />
 
                 case 'finale':
                     return <InfoModal modalVisible={this.state.modalVisible}
                         setModalVisible={(visible) => this.setModalVisible(visible)}
-                        onGoalCompleted={() => this.onGoalCompleted()} goal={goal} proceedAction={() => this.goToGoal(this.state.selectedIndex + 1)} />
+                        goal={goal} proceedAction={() => this.setModalVisible(false)} />
 
                 default:
                     return <CodeModal modalVisible={this.state.modalVisible}
@@ -249,20 +262,18 @@ export default class ScavengerMain extends Component {
         }
     }
 
-    completeGoal(visible) {
-        if (!visible) {
-            Animated.timing(                  // Animate over time
-                this.state.blurAnim,            // The animated value to drive
-                {
-                    toValue: 0,                   // Animate to opacity: 1 (opaque)
-                    easing: Easing.inOut(Easing.ease),
-                    duration: 5000,              // Make it take a while
-                    useNativeDriver: true,
-                }).start();                        // Starts the animation
-        }
+    completeGoal() {
+        Animated.timing(                  // Animate over time
+            this.state.blurAnim,            // The animated value to drive
+            {
+                toValue: 0,                   // Animate to opacity: 1 (opaque)
+                easing: Easing.inOut(Easing.ease),
+                duration: 5000,              // Make it take a while
+                useNativeDriver: true,
+            }).start();                        // Starts the animation
 
         this.setState({
-            completionVisible: visible,
+            completionVisible: false,
             nextVisible: true,
         });
     }
@@ -290,7 +301,7 @@ export default class ScavengerMain extends Component {
                 />
                 {this.clueModal()}
                 {this.completionModal()}
-                <FinalQuestionModal setModalVisible={(visible) => this.setState({ finaleVisible: visible })} modalVisible={this.state.finaleVisible} onYes={() => this.completeGoal(false)} />
+                <FinalQuestionModal setModalVisible={(visible) => this.setState({ finaleVisible: visible })} modalVisible={this.state.finaleVisible} onYes={() => this.completeGoal()} />
                 <View style={styles.nextView}>
                     {this.nextButton()}
                 </View>
@@ -312,7 +323,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: '100%',
-
     },
     headerBand: {
         position: 'absolute',

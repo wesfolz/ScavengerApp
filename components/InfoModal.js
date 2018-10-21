@@ -9,12 +9,6 @@ import CommonStyles from '../styles/CommonStyles';
 import Colors from '../styles/Colors';
 
 const InfoModal = ({ goal, modalVisible, setModalVisible, proceedAction }) => {
-
-    const proceedPress = () => {
-        setModalVisible(false);
-        proceedAction();
-    };
-
     return (
         <View>
             <Modal
@@ -29,9 +23,9 @@ const InfoModal = ({ goal, modalVisible, setModalVisible, proceedAction }) => {
                             rightIconPress={() => setModalVisible(false)} rightIconName={'close-circle'} />
                         <SpeechBubble text={goal.bodyText} />
                         <View style={CommonStyles.cardContent}>
-                            <Icon.Button name={'arrow-right-thick'} color={Colors.headerOrange} onPress={() => proceedPress()}
+                            <Icon.Button name={'thumb-up'} color={Colors.headerOrange} onPress={() => proceedAction()}
                                 backgroundColor={Colors.headerGray}>
-                                <Text style={CommonStyles.proceedButtonText}>Proceed</Text>
+                                <Text style={CommonStyles.proceedButtonText}>Ok</Text>
                             </Icon.Button>
                         </View>
                     </View>

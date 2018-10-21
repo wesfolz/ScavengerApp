@@ -6,7 +6,6 @@ import CommonStyles from '../styles/CommonStyles';
 import Colors from '../styles/Colors';
 import HeaderBar from './HeaderBar';
 
-
 const FinalQuestionModal = ({ setModalVisible, modalVisible, onYes, onNo }) => {
 
     const makeSelection = (confirm) => {
