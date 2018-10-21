@@ -5,7 +5,7 @@ import SpeechBubble from './SpeechBubble';
 import Colors from '../styles/Colors';
 
 
-const CompletionModal = ({ text, modalVisible, setModalVisible }) => {
+const CompletionModal = ({ text, imageSrc, modalVisible, setModalVisible }) => {
     return (
         <Modal
             animationType="fade"
@@ -16,7 +16,7 @@ const CompletionModal = ({ text, modalVisible, setModalVisible }) => {
             <View style={CommonStyles.overlay}>
                 <TouchableOpacity style={[CommonStyles.card, styles.card]} onPress={() => setModalVisible()}>
                     <Image
-                        source={require('../images/IMG_20181013_142608.jpg')}
+                        source={imageSrc}
                         style={styles.image}
                         resizeMode="contain"
                     />

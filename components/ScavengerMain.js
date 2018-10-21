@@ -23,8 +23,18 @@ export default class ScavengerMain extends Component {
         super(props);
 
         this.geolocator = new Geolocation('Alexa');
-        this.images = [
+        this.ringImages = [
             require("../images/ring.jpg"),
+            require("../images/ring_0.png"),
+            require("../images/ring_1.png"),
+            require("../images/ring_2.png"),
+            require("../images/ring_3.png"),
+            require("../images/ring_4.png"),
+            require("../images/ring_5.png"),
+            require("../images/ring_6.png"),
+        ];
+
+        this.completionImages = [
             require("../images/ring_0.png"),
             require("../images/ring_1.png"),
             require("../images/ring_2.png"),
@@ -113,7 +123,7 @@ export default class ScavengerMain extends Component {
             Database.setGoalStatus('home', 'done');
             this.goals[this.currentGoal.index].status = 'done';
             this.currentGoal.status = 'done';
-
+            this.goToGoal(0);
             this.setState({
                 finaleVisible: true,
             })
@@ -223,8 +233,11 @@ export default class ScavengerMain extends Component {
     completionModal() {
         const goal = this.goals[this.state.selectedIndex];
         if (goal != null) {
-            return <CompletionModal text={goal.completionMessage || "Looks like we just missed Papa."}
-                setModalVisible={() => this.completeGoal()} modalVisible={this.state.completionVisible} />
+            return (
+                <CompletionModal imageSrc={this.completionImages[this.state.selectedIndex - 1]}
+                    text={goal.completionMessage || "Looks like we just missed Papa."}
+                    setModalVisible={() => this.completeGoal()} modalVisible={this.state.completionVisible} />
+            );
         }
         return null;
     }
@@ -283,12 +296,12 @@ export default class ScavengerMain extends Component {
             <View style={styles.container}>
                 <LoadingModal modalVisible={this.state.loading} />
                 {this.state.nextVisible ? <Image
-                    source={this.images[this.state.selectedIndex]}
+                    source={this.ringImages[this.state.selectedIndex]}
                     style={CommonStyles.imageFull}
                     resizeMode="contain"
                 /> : null}
                 <Animated.Image
-                    source={this.images[this.state.selectedIndex]}
+                    source={this.ringImages[this.state.selectedIndex]}
                     style={[CommonStyles.imageFull, { opacity: this.state.blurAnim }]}
                     resizeMode="cover"
                     blurRadius={this.state.selectedIndex === 0 ? 8 : 2}
