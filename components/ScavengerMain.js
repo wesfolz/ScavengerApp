@@ -41,7 +41,7 @@ export default class ScavengerMain extends Component {
             require("../images/ring_3.png"),
             require("../images/ring_4.png"),
             require("../images/ring_5.png"),
-            require("../images/ring_6.png"),
+            require("../images/completion_6.jpg"),
         ];
 
         this.goals = [];
@@ -147,9 +147,9 @@ export default class ScavengerMain extends Component {
 
     proceedFromHome() {
         if (this.currentGoal.name === 'home') {
-            this.setModalVisible(false);
             this.unlockGoal(1);
         }
+        this.setModalVisible(false);
         this.goToGoal(1);
     }
 
@@ -255,6 +255,16 @@ export default class ScavengerMain extends Component {
         return null;
     }
 
+    selectorPress(index) {
+        if (index == this.state.selectedIndex && this.goals[this.state.selectedIndex].status === 'done') {
+            this.setState({
+                completionVisible: true,
+            });
+        } else {
+            this.goToGoal(index);
+        }
+    }
+
     goToGoal(index) {
         if (index >= this.goals.length) {
             index = 0;
@@ -307,7 +317,7 @@ export default class ScavengerMain extends Component {
                     blurRadius={this.state.selectedIndex === 0 ? 8 : 2}
                 />
                 <View style={styles.headerBand} />
-                <HeaderBar headerText={'Where is papa?'} leftIconName={'comment-text-outline'}
+                <HeaderBar headerText={'Where is Papa?'} leftIconName={'comment-text-outline'}
                     leftIconPress={() => this.props.navigation.openDrawer()}
                     rightIconName={'help-circle-outline'}
                     rightIconPress={() => this.setModalVisible(true)}
@@ -319,7 +329,7 @@ export default class ScavengerMain extends Component {
                     {this.nextButton()}
                 </View>
                 <View style={styles.sidebarContainer}>
-                    <SideSelector selectorPress={(index) => this.goToGoal(index)}
+                    <SideSelector selectorPress={(index) => this.selectorPress(index)}
                         selectedIndex={this.state.selectedIndex} selectorItems={this.state.selectorItems} />
                 </View>
             </View>

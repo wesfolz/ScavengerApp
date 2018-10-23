@@ -2,8 +2,6 @@ import React from 'react';
 import { StyleSheet, View, Modal, Image, TouchableOpacity } from 'react-native';
 import CommonStyles from '../styles/CommonStyles';
 import SpeechBubble from './SpeechBubble';
-import Colors from '../styles/Colors';
-
 
 const CompletionModal = ({ text, imageSrc, modalVisible, setModalVisible }) => {
     return (
@@ -14,7 +12,7 @@ const CompletionModal = ({ text, imageSrc, modalVisible, setModalVisible }) => {
             onRequestClose={() => setModalVisible()}
         >
             <View style={CommonStyles.overlay}>
-                <TouchableOpacity style={[CommonStyles.card, styles.card]} onPress={() => setModalVisible()}>
+                <TouchableOpacity style={CommonStyles.imageCard} onPress={() => setModalVisible()}>
                     <Image
                         source={imageSrc}
                         style={styles.image}
@@ -28,14 +26,14 @@ const CompletionModal = ({ text, imageSrc, modalVisible, setModalVisible }) => {
 }
 
 const styles = StyleSheet.create({
-    card: {
-        padding: 10,
-        backgroundColor: Colors.completionGreen,
-    },
     image: {
         width: '100%',
-        flex: 1,
-    }
+        height: '100%',
+        borderRadius: 8,
+        position: "absolute",
+        top: 0,
+
+    },
 });
 
 export default CompletionModal;

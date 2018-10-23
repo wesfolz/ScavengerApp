@@ -17,6 +17,10 @@ const CommonStyles = StyleSheet.create({
         width: '90%',
         height: 250,//'50%'
     },
+    imageCard: {
+        width: '90%',
+        height: '75%',//'50%'
+    },
     headerContainer: {
         borderRadius: 8,
         flexDirection: 'row',
