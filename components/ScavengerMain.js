@@ -9,13 +9,13 @@ import HeaderBar from './HeaderBar';
 import BurgerModal from './BurgerModal';
 import BJJModal from './BJJModal';
 import CodeModal from './CodeModal';
-import TheaterModal from './TheaterModal';
 import Colors from '../styles/Colors';
 import InfoModal from './InfoModal';
 import LoadingModal from './LoadingModal';
 import CompletionModal from './CompletionModal';
 import CommonStyles from '../styles/CommonStyles';
 import FinalQuestionModal from './FinalQuestionModal';
+import ImageClueModal from './ImageClueModal';
 
 export default class ScavengerMain extends Component {
 
@@ -40,9 +40,12 @@ export default class ScavengerMain extends Component {
             require("../images/ring_2.png"),
             require("../images/ring_3.png"),
             require("../images/ring_4.png"),
-            require("../images/ring_5.png"),
+            require("../images/completion_5.jpg"),
             require("../images/completion_6.jpg"),
         ];
+
+        this.ankleSprain = require('../images/anklesprain.png');
+        this.infinityWar = require('../images/infinity_war.jpg');
 
         this.goals = [];
         this.currentGoal = null;
@@ -198,18 +201,21 @@ export default class ScavengerMain extends Component {
             switch (goal.name) {
                 case 'fiveguys':
                     return <BurgerModal modalVisible={this.state.modalVisible}
-                        setModalVisible={(visible) => this.setModalVisible(visible)}
-                        onGoalCompleted={() => this.onGoalCompleted()} goal={goal} />
+                        setModalVisible={(visible) => this.setModalVisible(visible)} goal={goal} />
 
                 case 'bjj':
                     return <BJJModal modalVisible={this.state.modalVisible}
-                        setModalVisible={(visible) => this.setModalVisible(visible)}
-                        onGoalCompleted={() => this.onGoalCompleted()} goal={goal} />
+                        setModalVisible={(visible) => this.setModalVisible(visible)} goal={goal} />
 
                 case 'theater':
-                    return <TheaterModal modalVisible={this.state.modalVisible}
+                    return <ImageClueModal modalVisible={this.state.modalVisible}
                         setModalVisible={(visible) => this.setModalVisible(visible)}
-                        onGoalCompleted={() => this.onGoalCompleted()} goal={goal} />
+                        imageSrc={this.infinityWar} goal={goal} />
+
+                case 'park':
+                    return <ImageClueModal modalVisible={this.state.modalVisible}
+                        setModalVisible={(visible) => this.setModalVisible(visible)}
+                        imageSrc={this.ankleSprain} goal={goal} />
 
                 case 'home':
                     return <InfoModal modalVisible={this.state.modalVisible}
