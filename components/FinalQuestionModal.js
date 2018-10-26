@@ -22,8 +22,7 @@ const FinalQuestionModal = ({ setModalVisible, modalVisible, onYes }) => {
         >
             <View style={CommonStyles.overlay}>
                 <View style={CommonStyles.card}>
-                    <HeaderBar headerText='One final question...' leftIconName='ring'
-                        rightIconPress={() => setModalVisible(false)} rightIconName={'close-circle'} />
+                    <HeaderBar headerText='One final question...' leftIconName='ring' />
                     <View style={styles.card}>
                         <TouchableOpacity onPress={() => alert('Incorrect!')} style={[styles.button, styles.no]}>
                             <Icon name="thumb-down-outline" size={125} color='white' />

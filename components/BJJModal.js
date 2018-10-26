@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Modal, Text, View, Linking, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import ClueButton from './ClueButton';
 import SpeechBubble from './SpeechBubble';
 import CommonStyles from '../styles/CommonStyles';
 import Colors from '../styles/Colors';
@@ -44,7 +43,6 @@ const BJJModal = ({ goal, modalVisible, setModalVisible }) => {
                     </View>
                 </View>
             </Modal>
-            <ClueButton status={goal.status} onPress={() => setModalVisible(true)} />
         </View>
     );
 }

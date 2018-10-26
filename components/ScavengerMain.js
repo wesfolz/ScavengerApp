@@ -6,6 +6,7 @@ import Geolocation from '../geolocation/Geolocation';
 import { Database, Messaging } from '../firebase/FirebaseMain';
 import SideSelector from './SideSelector';
 import HeaderBar from './HeaderBar';
+import ClueButton from './ClueButton';
 import BurgerModal from './BurgerModal';
 import BJJModal from './BJJModal';
 import CodeModal from './CodeModal';
@@ -35,11 +36,11 @@ export default class ScavengerMain extends Component {
         ];
 
         this.completionImages = [
-            require("../images/ring_0.png"),
+            require("../images/completion_0.jpg"),
             require("../images/ring_1.png"),
             require("../images/ring_2.png"),
             require("../images/ring_3.png"),
-            require("../images/ring_4.png"),
+            require("../images/completion_4.jpg"),
             require("../images/completion_5.jpg"),
             require("../images/completion_6.jpg"),
         ];
@@ -54,7 +55,7 @@ export default class ScavengerMain extends Component {
             blurAnim: new Animated.Value(1),
             selectedIndex: 0,
             selectorItems: [],
-            nextVisible: false,
+            goalComplete: false,
             modalVisible: false,
             loading: true,
             completionVisible: false,
@@ -77,7 +78,7 @@ export default class ScavengerMain extends Component {
                 return this.goalIconName(goal);
             }),
             blurAnim: this.goals[this.state.selectedIndex].status === "done" ? new Animated.Value(0) : new Animated.Value(1),
-            nextVisible: this.goals[this.state.selectedIndex].status === 'done',
+            goalComplete: this.goals[this.state.selectedIndex].status === 'done',
         });
         Database.getCurrentGoalRef().once('value').then((goal) => this.setInitialGoal(goal.val()));
     }
@@ -124,9 +125,9 @@ export default class ScavengerMain extends Component {
         else if (this.currentGoal.name === this.finalGoal.name) {
             Messaging.sendLocalNotification('One question...');
             Database.setGoalStatus('home', 'done');
+            this.goToGoal(0);
             this.goals[this.currentGoal.index].status = 'done';
             this.currentGoal.status = 'done';
-            this.goToGoal(0);
             this.setState({
                 finaleVisible: true,
             })
@@ -249,7 +250,7 @@ export default class ScavengerMain extends Component {
     }
 
     nextButton() {
-        if (this.state.nextVisible) {
+        if (this.state.goalComplete && this.state.selectedIndex !== 0) {
             const nextIndex = this.state.selectedIndex + 1;
             return (
                 <Icon.Button name={'arrow-right-thick'} color={Colors.headerOrange}
@@ -262,7 +263,7 @@ export default class ScavengerMain extends Component {
     }
 
     selectorPress(index) {
-        if (index == this.state.selectedIndex && this.goals[this.state.selectedIndex].status === 'done') {
+        if (index === this.state.selectedIndex && this.goals[this.state.selectedIndex].status === 'done' && this.state.selectedIndex !== 0) {
             this.setState({
                 completionVisible: true,
             });
@@ -279,7 +280,7 @@ export default class ScavengerMain extends Component {
         icons[index] = this.goalIconName(this.goals[index]);
         this.setState({
             blurAnim: this.goals[index].status === 'done' ? new Animated.Value(0) : new Animated.Value(1),
-            nextVisible: this.goals[index].status === 'done',
+            goalComplete: this.goals[index].status === 'done',
             selectedIndex: index,
             selectorItems: icons,
         });
@@ -303,41 +304,47 @@ export default class ScavengerMain extends Component {
 
         this.setState({
             completionVisible: false,
-            nextVisible: true,
+            goalComplete: true,
         });
     }
 
     render() {
         return (
-            <View style={styles.container}>
-                <LoadingModal modalVisible={this.state.loading} />
-                {this.state.nextVisible ? <Image
-                    source={this.ringImages[this.state.selectedIndex]}
-                    style={CommonStyles.imageFull}
-                    resizeMode="contain"
-                /> : null}
-                <Animated.Image
-                    source={this.ringImages[this.state.selectedIndex]}
-                    style={[CommonStyles.imageFull, { opacity: this.state.blurAnim }]}
-                    resizeMode="cover"
-                    blurRadius={this.state.selectedIndex === 0 ? 8 : 2}
-                />
-                <View style={styles.headerBand} />
-                <HeaderBar headerText={'Where is Papa?'} leftIconName={'comment-text-outline'}
-                    leftIconPress={() => this.props.navigation.openDrawer()}
-                    rightIconName={'help-circle-outline'}
-                    rightIconPress={() => this.setModalVisible(true)}
-                />
+            <View style={{ flex: 1 }}>
+                <View style={styles.container}>
+                    <LoadingModal modalVisible={this.state.loading} />
+                    {this.state.goalComplete ? <Image
+                        source={this.ringImages[this.state.selectedIndex]}
+                        style={CommonStyles.imageFull}
+                        resizeMode="contain"
+                    /> : null}
+                    <Animated.Image
+                        source={this.ringImages[this.state.selectedIndex]}
+                        style={[CommonStyles.imageFull, { opacity: this.state.blurAnim }]}
+                        resizeMode="cover"
+                        blurRadius={this.state.selectedIndex === 0 ? 8 : 2}
+                    />
+                    <View style={styles.headerBand} />
+                    <HeaderBar headerText={'Where is Papa?'} leftIconName={'comment-text-outline'}
+                        leftIconPress={() => this.props.navigation.openDrawer()}
+                        rightIconName={'help-circle-outline'}
+                        rightIconPress={() => this.setModalVisible(true)}
+                    />
+
+                    <ClueButton status={this.goals[this.state.selectedIndex] && this.goals[this.state.selectedIndex].status} onPress={() => this.setModalVisible(true)} />
+
+                    <View style={styles.nextView}>
+                        {this.nextButton()}
+                    </View>
+
+                    <View style={styles.sidebarContainer}>
+                        <SideSelector selectorPress={(index) => this.selectorPress(index)}
+                            selectedIndex={this.state.selectedIndex} selectorItems={this.state.selectorItems} />
+                    </View>
+                </View>
                 {this.clueModal()}
                 {this.completionModal()}
                 <FinalQuestionModal setModalVisible={(visible) => this.setState({ finaleVisible: visible })} modalVisible={this.state.finaleVisible} onYes={() => this.completeGoal()} />
-                <View style={styles.nextView}>
-                    {this.nextButton()}
-                </View>
-                <View style={styles.sidebarContainer}>
-                    <SideSelector selectorPress={(index) => this.selectorPress(index)}
-                        selectedIndex={this.state.selectedIndex} selectorItems={this.state.selectorItems} />
-                </View>
             </View>
         );
     }

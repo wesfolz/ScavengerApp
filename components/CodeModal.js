@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { StyleSheet, Modal, Text, View, TextInput, Button } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import ClueButton from './ClueButton';
 import HeaderBar from './HeaderBar';
 import SpeechBubble from './SpeechBubble';
 import CommonStyles from '../styles/CommonStyles';
@@ -74,7 +73,6 @@ export default class CodeModal extends Component {
                         </View>
                     </View>
                 </Modal>
-                <ClueButton status={this.props.goal.status} onPress={() => this.props.setModalVisible(true)} />
             </View>
         );
     }

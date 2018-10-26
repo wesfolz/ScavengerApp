@@ -2,7 +2,6 @@ import React from 'react';
 import { Modal, View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import ClueButton from './ClueButton';
 import SpeechBubble from './SpeechBubble';
 import HeaderBar from './HeaderBar';
 import CommonStyles from '../styles/CommonStyles';
@@ -31,7 +30,6 @@ const InfoModal = ({ goal, modalVisible, setModalVisible, proceedAction }) => {
                     </View>
                 </View>
             </Modal>
-            <ClueButton status={goal.status} onPress={() => setModalVisible(true)} />
         </View>
     );
 }
