@@ -37,9 +37,9 @@ export default class ScavengerMain extends Component {
 
         this.completionImages = [
             require("../images/completion_0.jpg"),
-            require("../images/ring_1.png"),
-            require("../images/ring_2.png"),
-            require("../images/ring_3.png"),
+            require("../images/completion_1.jpg"),
+            require("../images/completion_2.jpg"),
+            require("../images/completion_3.jpg"),
             require("../images/completion_4.jpg"),
             require("../images/completion_5.jpg"),
             require("../images/completion_6.jpg"),
@@ -305,6 +305,7 @@ export default class ScavengerMain extends Component {
         this.setState({
             completionVisible: false,
             goalComplete: true,
+            modalVisible: false,
         });
     }
 

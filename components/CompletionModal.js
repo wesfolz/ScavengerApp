@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         position: "absolute",
         top: 0,
-
     },
 });
 

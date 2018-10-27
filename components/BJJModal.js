@@ -34,7 +34,7 @@ const BJJModal = ({ goal, modalVisible, setModalVisible }) => {
                         </View>
                         <View style={[styles.stripe, { backgroundColor: 'white' }]}>
                             <Icon name="youtube" size={50} color={Colors.ketchup} onPress={() =>
-                                Linking.openURL('https://www.youtube.com/watch?v=oxv6-npAxpY')}
+                                Linking.openURL('https://youtu.be/LE443LByPFU')}
                             />
                         </View>
                         <View style={{ position: 'absolute', top: 54, right: 0 }}>
