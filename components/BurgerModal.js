@@ -50,9 +50,8 @@ const styles = StyleSheet.create({
     },
     headerText: {
         color: 'black',
-        fontSize: 30,
+        fontSize: 26,
         fontFamily: "Bob's Burgers",
-        margin: 12,
     },
 });
 

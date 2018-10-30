@@ -36,9 +36,8 @@ const CommonStyles = StyleSheet.create({
         margin: 12,
     },
     headerText: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
-        margin: 12,
         color: '#F2994A',
     },
     cardContent: {
